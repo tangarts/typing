@@ -1,0 +1,17 @@
+resources/public/cljs-out
+pom.xml
+pom.xml.asc
+*jar
+*.class
+/lib/
+/checkouts/
+/classes/
+/out/
+/target/
+.lein-*
+.repl
+.nrepl-port
+.cpcache/
+.rebel_readline_history
+ref/
+
