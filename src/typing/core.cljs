@@ -4,7 +4,7 @@
    [reagent.core :as reagent :refer [atom]]
    [reagent.dom :as rdom]))
 
-;; define your app data so that it doesn't get over-written on reload
+
 (defonce app-state (atom {:text "Hello world!"}))
 
 (defn get-app-element []
