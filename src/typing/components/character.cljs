@@ -5,5 +5,5 @@
 (defn character
   "if variant red else white
   "
-  [^string children variant]
+  [children variant]
   [:span {:style ((keyword variant) color)} children])

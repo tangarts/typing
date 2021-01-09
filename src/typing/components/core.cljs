@@ -1,6 +1,6 @@
 (ns typing.components.core
   (:require [typing.components.style :as style]
-            [typing.components.word :refer [word]]
+;            [typing.components.word :refer [word]]
             [clojure.string :as str]))
 
 
@@ -12,22 +12,57 @@
  
 
 (defn generate-words
-  [^Integer n]
+  [n]
   (into []
         (for [x (range n)]
           (nth vocab (randint 0 (- (count vocab) 1))))))
 
 
 (defn get-word-type 
-  [a n]
+  [a b]
   (cond 
     (< a b) "done"
     (= a b) "current"
     :else "awaiting"))
 
+(def typing-state
+  #{:not-started
+    :in-prog
+    :awaiting
+    :finished})
+
+; enum TypingState {
+;   NotStarted,
+;   InProgress,
+;   AwaitingLastWord,
+;   Finished
+; }
+
+(def cpm (atom 0))
+
+(def state (atom
+             {:input-words []
+              :i 0
+              :time 12
+              :typing-state
+              (typing-state :not-started)}))
+
+; characters is wrong, doesnt include spaces
+; characters should handle text better
+(defn get-cpm
+  [input-words]
+  (let [time-elapsed (@state :time)
+        characters (reduce + (map count input-words))]
+    (/ (Math/floor (* characters 60)) time-elapsed)))
+
+(comment 
+  (get-cpm input-words)
+  (def input-words (generate-words 10))
+)
+
 (defn app-state []
   (let [cpm 0
-        state {:input-words [] :i 0 :time 0 :typing-state :nil}]
+        state ]
     ))
 
 (map count (generate-words 10))
