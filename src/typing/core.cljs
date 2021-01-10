@@ -122,17 +122,24 @@
               (typing-state "not-started")}))
 
 ; gloaal test data
-(def actual "if by she go")
-(def expected "if by she")
+(def actual ["hello" "world" "this" "is" "not" "a" "Test"])
+(def expected ["hello "])
 
-(defn words []
-(let [idx (range (count expected))] ; FIX to include real data
-         (into [:div ] (map
-           #(word (nth expected %) (nth actual %)
-                  (get-word-type % (dec (count expected))))
-           idx))))
+; (defn words []
+; (let [idx (range (count actual))] ; FIX to include real data
+;          (into [:div ] (map
+;            #(word (nth expected %) (nth actual %)
+;                   (get-word-type % (count actual)))
+;            idx))))
 
-(count expected)
+;(words)
+
+
+(defn test-span-tag []
+  (word expected actual "current")
+  )
+
+
 
 (defn app [] 
   (let [input-ref! (atom nil)
@@ -173,8 +180,11 @@
        :value "Current TODO"
        :onkeydown "fn on-key-down"}]]]
   (hello-world)
-  (words)
+;  (words)
+  (test-span-tag)
    ])))
+
+
 
 
 (comment

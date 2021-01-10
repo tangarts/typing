@@ -18,7 +18,7 @@
 (def container
   {
    :margin "10px auto"
-   :max-width "750"
+   :max-width 750
    :width "90%"
    })
 
@@ -31,12 +31,12 @@
   :background "#444"
   :color "white"
   :align-items "center"
-  :font-size "13"
+  :font-size 13
 })
 
 (def inputs {
   :user-select "none"
   :overflow "hidden"
   :text-align "center"
-  :height "180"
+  :height 180
 })

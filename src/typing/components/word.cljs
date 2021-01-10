@@ -6,10 +6,10 @@
 
 ; OK
 (def word-css
-  {:font-size "26"
+  {:font-size 26
   :margin-bottom "4px"
   :padding "4px 5px"
-  :border-radius "5"
+  :border-radius 5
   :display "inline-block"})
 
 
@@ -28,34 +28,32 @@
   "variant: current done awaiting"
   [expected actual variant]
   (let [is-match (= expected actual)
-        style-object {:color "#111"}
-        index (range (count expected))]
-      [:span {:style word-css}
+        index (range (count expected))
+        style-obj 
+        (cond (= variant "done") 
+              {:color (if is-match "#1c54ff" "#f20434")}
+              (= variant "current")
+              {:background "#3bd376"}
+              :else {:color "#111"}
+              )]
+    (into [:span {:style (merge word-css style-obj)}] 
        (if (not= variant "current") expected
-         (map #(character %1 %2)
-              expected
-              (map #(get-variant expected actual %)
-                   index))
-       )]))
+         (map #(character %1 %2) expected
+              (map #(get-variant expected actual %) index))))))
 
 
 (comment 
-
-(assoc style-object :background "#3bd376")
-(word expected actual "awaiting")
-(def expected "hello world")
-(def actual "hello wor")
-
-(map #(get-variant expected actual %) (range (count expected)))
+(def expected "hello")
+(def actual "hel ")
+(word expected actual "current")
 
 (def l 
-  '("white" "white" "white" "white" "white" "white" "white" "white" "white" "black" "black"))
+  ["white" "white" "white" "white" "white" "white" "white" "white" "white" "black" "black"])
 
-(map #(character %1 %2)
-     expected
-    (map #(get-variant expected actual %) (range (count expected))) )
-
-
+(into [:span {:style (merge word-css {:color "#fff"})}]
+(map #(character %1 %2) expected 
+     (map #(get-variant expected actual %) (range (count expected))))
+)
 
 (range (count (seq expected)))
 (count expected)
