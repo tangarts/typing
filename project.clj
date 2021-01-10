@@ -8,6 +8,7 @@
 
   :dependencies [[org.clojure/clojure "1.10.0"]
                  [org.clojure/clojurescript "1.10.773"]
+                 [arttuka/reagent-material-ui "4.11.2-0"]
                  [reagent "0.10.0" ]] 
 
   :plugins [[cider/cider-nrepl "0.24.0"]]

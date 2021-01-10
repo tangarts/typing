@@ -1,14 +1,33 @@
 (ns ^:figwheel-hooks typing.core
   (:require
    [goog.dom :as gdom]
-   [reagent.core :as reagent :refer [atom]]
+   [reagent.core :as r]
+   [reagent.dom :as rdom]
    [typing.components.style :as style]
+   [reagent-material-ui.colors :as mui-colors]
+   [reagent-material-ui.core.text-field :refer [text-field]]
+   [reagent-material-ui.core.paper :refer [paper]]
+   [reagent-material-ui.styles :as mui-styles]
+   [reagent-material-ui.core.icon-button :refer [icon-button]]
    [typing.components.word :refer [word]]
-   [clojure.string :as str]
-   [reagent.dom :as rdom]))
+   [clojure.string :as str]))
+
+
+; (set! *warn-on-infer* true)
+; 
+; (defn event-value
+;   [^js/Event e]
+;   (.. e -target -value))
 
 (defn  multiply [a b]
   (* a b))
+
+(defn timer-component []
+  (let [seconds-elapsed (r/atom 0)]
+    (fn []
+      (js/setTimeout #(swap! seconds-elapsed inc) 1000)
+      [:div
+       "Seconds Elapsed: " @seconds-elapsed])))
 
 (defn randint
   [start end]
@@ -37,9 +56,9 @@
     "finished"})
 
 
-(def cpm (atom 0))
+(def cpm (r/atom 0))
 
-(defonce app-state (atom
+(defonce app-state (r/atom
              {:input-words ["hello" "wor  "]
               :i 0
               :time 12
@@ -83,7 +102,6 @@
    [:h3 "Edit this in src/typing/core.cljs and watch it change!"]])
 
 
-
 ;; what a messs....
 (defn on-key-down [e]
   (let [input-words (:input-words @app-state)
@@ -109,12 +127,11 @@
           ; if state not started set state -> in-prog
           ; run timer
           :else nil) 
-    (print input-words i)
-          ))
+    (print input-words i)))
 
 
 ; use as test app-state
-(def state (atom
+(def state (r/atom
              {:input-words ["hello" "wor  "]
               :i 3
               :time 12
@@ -123,15 +140,15 @@
 
 ; gloaal test data
 (def expected ["hello" "world" "this" "is" "not" "a" "Test"])
-(def actual ["hello" "world" "this" "s"])
+(def actual ["hello" "world" "th " "" "" "" "" "" "" "" ""])
 (count actual)
 
 (def s '("done" "done" "done" "done" "done" "done" "current"))
 
 (defn words []
-(let [idx (range (count actual))] ; FIX to include real data
+(let [idx (range (count expected))] ; FIX to include real data
          (into [:div ] (map
-           #(word (nth expected %2) (nth actual %2) %1) s         
+           #(word (nth expected %2) (or (get actual %2) %2) %1) s         
            idx))))
 ; (map #(get-word-type % (dec (count expected))) idx)
 (map #(get-word-type % (dec (count expected))) (range (count expected)))
@@ -146,22 +163,23 @@
   )
 
 
+; (def did-mount {:component-did-mount #(.focus (rdom/dom-node %)))
 
 (defn app [] 
-  (let [input-ref! (atom nil)
-        words-ref! (atom nil)
+  (let [input-ref! (r/atom nil)
+        words-ref! (r/atom nil)
         current (nth (:input-words @app-state) (:i @app-state))]
+
     (fn []
   [:div {:style style/root}
    [:div {:style style/container}
-    [:paper {:elevation "4"
+    [paper {:elevation "4"
              :style style/board}
-     [:paper {:elevation "2"}
+     [paper {:elevation "2"}
       [:div {:style style/statistics}
-       [:div "Time left: " ; FIX
-        (if (= (@app-state :typing-state) "awaiting")
-          "finsh word"
-          (@app-state :time)) ]
+       [:div "timer: " ; FIX 
+        (if (= (@app-state :typing-state) "awaiting") "finsh word"
+          ) ]
        [:div {:style
               {:margin-left "20"}}
         "CPM: " (if
@@ -170,14 +188,15 @@
                   @cpm)]
        [:div {:style
               {:flex-grow "1"}}]
-       [:icon-button {:color "inherit" 
+       [icon-button {:color "inherit" 
                       :onclick " reset fn"}
         [:i {:class "material-icons"} "replay" ]]]]
      [:div {:style {:padding "35px 15px"}}
-      (words)
+      [:div {:style style/inputs}
+      [words]]
       ]]
-    [:div {:style {:padding "0px"}}
-     [:div 
+    [paper {:style {:padding "0px"}}
+     [text-field
       {:input-ref @input-ref!
        :placeholder "start typing here"
        :margin "none"
@@ -208,8 +227,6 @@
     :expected "words todo"
     :actual "input-words todo"
     :close-dialog "close-dialog"}])
-
-
 
 
 
