@@ -122,21 +122,27 @@
               (typing-state "not-started")}))
 
 ; gloaal test data
-(def actual ["hello" "world" "this" "is" "not" "a" "Test"])
-(def expected ["hello "])
+(def expected ["hello" "world" "this" "is" "not" "a" "Test"])
+(def actual ["hello" "world" "this" "s"])
+(count actual)
 
-; (defn words []
-; (let [idx (range (count actual))] ; FIX to include real data
-;          (into [:div ] (map
-;            #(word (nth expected %) (nth actual %)
-;                   (get-word-type % (count actual)))
-;            idx))))
+(def s '("done" "done" "done" "done" "done" "done" "current"))
 
-;(words)
+(defn words []
+(let [idx (range (count actual))] ; FIX to include real data
+         (into [:div ] (map
+           #(word (nth expected %2) (nth actual %2) %1) s         
+           idx))))
+; (map #(get-word-type % (dec (count expected))) idx)
+(map #(get-word-type % (dec (count expected))) (range (count expected)))
+
+(dec (count expected))
+
+(words)
 
 
 (defn test-span-tag []
-  (word expected actual "current")
+  (word expected actual "done")
   )
 
 
@@ -144,7 +150,7 @@
 (defn app [] 
   (let [input-ref! (atom nil)
         words-ref! (atom nil)
-        current (:input-words @app-state)]
+        current (nth (:input-words @app-state) (:i @app-state))]
     (fn []
   [:div {:style style/root}
    [:div {:style style/container}
@@ -168,22 +174,18 @@
                       :onclick " reset fn"}
         [:i {:class "material-icons"} "replay" ]]]]
      [:div {:style {:padding "35px 15px"}}
-
+      (words)
       ]]
-    [:paper {:style {:padding "0px"}}
-     [:textfield 
+    [:div {:style {:padding "0px"}}
+     [:div 
       {:input-ref @input-ref!
        :placeholder "start typing here"
        :margin "none"
        :full-width "true"
        :variant "outlined"
-       :value "Current TODO"
+       :value current
        :onkeydown "fn on-key-down"}]]]
-  (hello-world)
-;  (words)
-  (test-span-tag)
    ])))
-
 
 
 
@@ -194,6 +196,7 @@
 
 (:input-words @app-state)
 (nth (:input-words @state) (:i @state))
+(:input-words @app-state)
 
 
 )
