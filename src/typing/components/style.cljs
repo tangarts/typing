@@ -37,6 +37,5 @@
 (def inputs {
   :user-select "none"
   :overflow "hidden"
-  :text-align "center"
-  :height 180
+  :height 360
 })

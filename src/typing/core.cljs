@@ -75,21 +75,21 @@
     (/ (Math/floor (* characters 60)) time-elapsed)))
 
 
-(defn end-timer []
-  (swap! 
-    app-state
-    assoc :typing-state (typing-state "awaiting")))
+; (defn end-timer []
+;   (swap! 
+;     app-state
+;     assoc :typing-state (typing-state "awaiting")))
 
 
 ;; ???
-(defn run-timer []
-  (defn set-timeout []
-    (let [time- (@app-state :time)]
-      (if (< time- 60) (do
-                         (swap! app-state update-in [:time] inc)
-                         (run-timer))
-        (end-timer)))) 100)
-
+; (defn run-timer []
+;   (defn set-timeout []
+;     (let [time- (@app-state :time)]
+;       (if (< time- 60) (do
+;                          (swap! app-state update-in [:time] inc)
+;                          (run-timer))
+;         (end-timer)))) 100)
+; 
 
 
 (defn get-app-element []
@@ -106,7 +106,7 @@
 (defn on-key-down [e]
   (let [input-words (:input-words @app-state)
         i (:i @app-state)]
-    (cond (= [:key e] "backspace")
+    (cond (= (.-key e) "backspace")
           (if (= (count (nth input-words i)) 0) ;or e.ctrlkey
             (do
               (when (> i 0) (dec i))
@@ -114,7 +114,7 @@
                       (subs (nth input-words i) 0 (inc i))))
             (reset! (nth input-words i)
                     (butlast (nth input-words i))))
-          (= [:key e] " ")
+          (= (.-key e) " ")
           (do
             (swap! i (inc i))
             (reset! (nth input-words i) "")
@@ -122,8 +122,8 @@
             (when (= (:typing-state @app-state) "awaiting")
               (swap!  app-state
                      assoc :typing-state (typing-state "finished"))))
-          (= (count [:key e]) 1)
-          (conj (nth input-words i) [e.key])
+          (= (count (.-key e)) 1)
+          (conj (nth input-words i) (.-key e))
           ; if state not started set state -> in-prog
           ; run timer
           :else nil) 
@@ -158,12 +158,57 @@
 (words)
 
 
-(defn test-span-tag []
-  (word expected actual "done")
-  )
+(defn test-span-tag [] (word expected actual "done"))
+
+
+(def text (str/split "In today’s technology landscape, the web is king. Web apps are everywhere, and the lingua franca of the web is JavaScript. Whether the task is adding interactivity to a simple web page, creating a complex single-page application, or even writing a server-side application, JavaScript is the defacto tool. Despite its age and its hasty design, JavaScript has evolved to power an entire generation of web development. The JavaScript community is also one of the most active and prolific software development communities ever, with libraries and frameworks for any conceivable use." #""))
+
+(comment 
+(doseq [[i word] (map-indexed vector words)] (println i word))
+)
+
+; render text first and only update class on input :)
+(defn render-text [text]
+  (into [:div ]
+        (for [character text]
+          [:span {:class ""
+                  :style
+                  {:font-size 16
+                   :padding ".1em 0"
+                   :border-radius 5
+                   }} character])))
+
+(def input-ref "words at the flake") ; input from text-area
+(defn character-state! []
+  (let [toggle-state (r/atom false)
+        correct (r/atom true)]
+    (for [character text
+          input (str/split input-ref #"")]
+      (cond (nil? input) (@swap! correct false)
+            ; change characters span class to true
+            (= character input) "correct" 
+            ; change characters span class to false
+            ; swap correct false
+            :else  "false" 
+    ))))
+
+; (fn [] (.addEventListener js/document "input" handler))
 
 
 ; (def did-mount {:component-did-mount #(.focus (rdom/dom-node %)))
+
+(defn text-area [input-ref!]
+[:input
+      {
+       ; :style {:position "fixed" :left "-100%" :top "50%"}
+       :type "text"
+       ; :placeholder "start typing here"
+       :margin "none"
+       :full-width "true"
+       :variant "outlined"
+       :default-value @input-ref!
+       :on-change #(reset! input-ref! (-> % .-target .-value))
+       }])
 
 (defn app [] 
   (let [input-ref! (r/atom nil)
@@ -192,23 +237,36 @@
                       :onclick " reset fn"}
         [:i {:class "material-icons"} "replay" ]]]]
      [:div {:style {:padding "35px 15px"}}
-      [:div {:style style/inputs}
-      [words]]
-      ]]
-    [paper {:style {:padding "0px"}}
-     [text-field
-      {:input-ref @input-ref!
-       :placeholder "start typing here"
-       :margin "none"
-       :full-width "true"
-       :variant "outlined"
-       :value current
-       :onkeydown "fn on-key-down"}]]]
-   ])))
 
+      [:div {:style style/inputs}
+
+      [words]
+      [render-text text]
+      [:div @input-ref!]
+  
+       ]]]
+    [paper {:style {:padding "0px"}}
+      ; text-area
+
+     [text-area input-ref!]
+     ]]
+   ]
+  )))
 
 
 (comment
+
+  [:div.timer#timer]
+  [:div.container
+   [:div.quote-display#quote-display]
+   [:textarea.quote-input#quote-input]
+   ]
+  quote-display-element.event-listener('input',)
+  quote-input-element
+  timer-element
+
+
+
 (def actual "if by she go give you enve ou ")
 (def expected "if by she go give you even our")
 (word expected (:input-words @app-state) "awaiting")
