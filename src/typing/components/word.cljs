@@ -41,6 +41,7 @@
 
 
 (comment 
+
 (def expected "hello")
 (def actual "hel ")
 (word expected actual "current")
