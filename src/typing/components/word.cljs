@@ -6,9 +6,7 @@
 
 ; OK
 (def word-css
-  {:font-size 26
-  :margin-bottom "4px"
-  :padding "4px 5px"
+  {:font-size 16
   :border-radius 5
   :display "inline-block"})
 
@@ -50,6 +48,7 @@
 (def l 
   ["white" "white" "white" "white" "white" "white" "white" "white" "white" "black" "black"])
 
+(doseq [[i word] (map-indexed list l)] (println i word))
 (into [:span {:style (merge word-css {:color "#fff"})}]
 (map #(character %1 %2) expected 
      (map #(get-variant expected actual %) (range (count expected))))
