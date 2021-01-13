@@ -1,8 +1,6 @@
-(ns ^:figwheel-hooks typing.core
+(ns typing.views
   (:require
-   [goog.dom :as gdom]
    [reagent.core :as r]
-   [reagent.dom :as rdom]
    [typing.components.style :as style]
    [reagent-material-ui.colors :as mui-colors]
    [reagent-material-ui.core.text-field :refer [text-field]]
@@ -30,15 +28,6 @@
   [start end]
   (+ start (int (* end (rand)))))
 
-(def vocab (str/split "about all also and because but by can come could) day even find first for from get give go have he her here him his how if in into it its just know like look make man many me more my new no not now of on one only or other our out people say see she so some take tell than that the their them then there these they thing think this those time to two up use very want way we well what when which who will with would year you your" #" "))
-
-(defn generate-words
-  [n]
-  (into []
-        (for [x (range n)]
-          (nth vocab (randint 0 (- (count vocab) 1))))))
-
-
 (defn get-word-type 
   [a b]
   (cond 
@@ -52,8 +41,7 @@
     "awaiting"
     "finished"})
 
-
-(def cpm (r/atom 0))
+(def cpm 0)
 
 (defonce app-state (r/atom
              {:input-words ["hello" "wor  "]
@@ -72,8 +60,21 @@
     (/ (Math/floor (* characters 60)) time-elapsed)))
 
 
-(defn get-app-element []
-  (gdom/getElement "app"))
+; (defn end-timer []
+;   (swap! 
+;     app-state
+;     assoc :typing-state (typing-state "awaiting")))
+
+
+;; ???
+; (defn run-timer []
+;   (defn set-timeout []
+;     (let [time- (@app-state :time)]
+;       (if (< time- 60) (do
+;                          (swap! app-state update-in [:time] inc)
+;                          (run-timer))
+;         (end-timer)))) 100)
+; 
 
 
 ;; what a messs....
@@ -104,54 +105,34 @@
     (print input-words i)))
 
 
-; use as test app-state
-(def state (r/atom
-             {:input-words ["hello" "wor  "]
-              :i 3
-              :time 12
-              :typing-state
-              (typing-state "not-started")}))
 
 ; gloaal test data
 (def expected ["hello" "world" "this" "is" "not" "a" "Test"])
+(def s '("done" "done" "done" "done" "done" "done" "current"))
 (def actual ["hello" "world" "th " "" "" "" "" "" "" "" ""])
 (count actual)
-
-(def s '("done" "done" "done" "done" "done" "done" "current"))
 
 (defn words []
 (let [idx (range (count expected))] ; FIX to include real data
          (into [:div ] (map
            #(word (nth expected %2) (or (get actual %2) %2) %1) s         
            idx))))
+
+
+(doseq [[i word] (map-indexed vector words)] (println i word))
+
+
 ; (map #(get-word-type % (dec (count expected))) idx)
 (map #(get-word-type % (dec (count expected))) (range (count expected)))
 
 (dec (count expected))
 
-(words)
-
-
-
-
-(def text
-  (str/split
-    "In today’s technology landscape, the web is king.\n
-    Web apps are everywhere, and the lingua franca of the web is JavaScript.\n 
-    Whether the task is adding interactivity to a simple web page, creating a 
-    complex single-page application, or even writing a server-side application, 
-    JavaScript is the defacto tool. Despite its age and its hasty design, 
-    JavaScript has evolved to power an entire generation of web development. \n\n
-    The JavaScript community is also one of the most active and prolific software development
-    communities ever, with libraries and frameworks for any conceivable use." #"")) 
-
-
-
-(nth text 3)
-
 (comment 
-(doseq [[i word] (map-indexed vector words)] (println i word))
+(words)
 )
+
+(def text (str/split "In today’s technology landscape, the web is king. Web apps are everywhere, and the lingua franca of the web is JavaScript. Whether the task is adding interactivity to a simple web page, creating a complex single-page application, or even writing a server-side application, JavaScript is the defacto tool. Despite its age and its hasty design, JavaScript has evolved to power an entire generation of web development. The JavaScript community is also one of the most active and prolific software development communities ever, with libraries and frameworks for any conceivable use." #""))
+
 
 ; render text first and only update class on input :)
 (defn render-text [text]
@@ -164,15 +145,7 @@
                    :border-radius 5
                    }} character])))
 
-
-; input and text body
-; incorrect: input and substring of text not equal in length to input are equal
-; corrent input and substring of text equal in length to input are equal 
-; current length on input
-;
-
 (def input-ref "words at the flake") ; input from text-area
-
 (defn character-state! []
   (let [toggle-state (r/atom false)
         correct (r/atom true)]
@@ -187,7 +160,6 @@
     ))))
 
 ; (fn [] (.addEventListener js/document "input" handler))
-
 
 ; (def did-mount {:component-did-mount #(.focus (rdom/dom-node %)))
 
@@ -280,24 +252,3 @@
     :actual "input-words todo"
     :close-dialog "close-dialog"}])
 
-
-
-(defn mount [el]
-  (rdom/render
-    [app] el))
-
-(defn mount-app-element []
-  (when-let [el (get-app-element)]
-    (mount el)))
-
-;; conditionally start your application based on the presence of an "app" element
-;; this is particularly helpful for testing this ns without launching the app
-(mount-app-element)
-
-;; specify reload hook with ^;after-load metadata
-(defn ^:after-load on-reload []
-  (mount-app-element)
-  ;; optionally touch your app-state to force rerendering depending on
-  ;; your application
-  ;; (swap! app-state update-in [:__figwheel_counter] inc)
-)
