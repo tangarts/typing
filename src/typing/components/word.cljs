@@ -6,9 +6,12 @@
 
 ; OK
 (def word-css
-  {:font-size 16
-  :border-radius 5
-  :display "inline-block"})
+  {:font-size 18
+   :letter-spacing ".1em"
+   :font-family "Source Code Pro, monospace"
+   :margin "0 auto"
+   :overflow "hidden"
+   })
 
 
 ; OK
@@ -32,18 +35,18 @@
               {:color (if is-match "#1c54ff" "#f20434")}
               (= variant "current")
               {:background "#3bd376"}
-              :else {:color "#111"}
-              )]
-    (into [:span {:style (merge word-css style-obj)}] 
+              :else {:color "#111"})]
+    (into [:span#text {:style (merge word-css style-obj)}] 
        (if (not= variant "current") expected
          (map #(character %1 %2) expected
               (map #(get-variant expected actual %) index))))))
 
 
+
 (comment 
 
-(def expected "hello")
-(def actual "hel ")
+(def expected ["h" "e" "l" "l" "o"])
+(def actual [""])
 (word expected actual "current")
 
 (def l 

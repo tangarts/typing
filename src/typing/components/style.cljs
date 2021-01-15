@@ -1,5 +1,8 @@
 (ns typing.components.style)
 
+(comment 
+; :font-family "Special Elite"  
+  )
 
 (def root
   {
@@ -35,7 +38,7 @@
 })
 
 (def inputs {
-  :user-select "none"
+;  :user-select "none"
   :overflow "hidden"
-  :height 360
+  ; :height 360
 })
