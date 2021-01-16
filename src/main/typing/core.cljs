@@ -1,14 +1,9 @@
-(ns ^:figwheel-hooks typing.core
+(ns typing.core
   (:require
-   [goog.dom :as gdom]
    [reagent.core :as r]
    [reagent.dom :as rdom]
    [typing.components.style :as style]
-   [reagent-material-ui.colors :as mui-colors]
-   [reagent-material-ui.core.text-field :refer [text-field]]
    [reagent-material-ui.core.paper :refer [paper]]
-   [reagent-material-ui.styles :as mui-styles]
-   [reagent-material-ui.core.icon-button :refer [icon-button]]
    [typing.components.word :refer [word word-css]]
    [clojure.string :as str]))
 
@@ -27,8 +22,6 @@
     (= a b) "current"
     :else "awaiting"))
 
-(defn get-app-element []
-  (gdom/getElement "app"))
 
 (defn words [expected actual]
   (let [idx (range (count expected))
@@ -54,15 +47,11 @@
 
   (map = (str/split @input-ref! #"") (subvec text 0 (count @input-ref!)))
 
+  ; (fn [] (.addEventListener js/document "input" handler))
+  ; (def did-mount {:component-did-mount #(.focus (rdom/dom-node %)))
+
+
 )
-
-; (fn [] (.addEventListener js/document "input" handler))
-
-; (def did-mount {:component-did-mount #(.focus (rdom/dom-node %)))
-
-(defn initial-focus-wrapper [element]
-  (with-meta element
-    {:component-did-mount #(.focus (rdom/dom-node %))}))
 
 (defn text-area [input-ref!]
   (fn []
@@ -77,8 +66,7 @@
   (-> js/document (.getElementById "input") (.focus)))
 
 (defn app [] 
-  (let [input-ref! (r/atom nil)
-        words-ref! (r/atom nil) ]
+  (let [input-ref! (r/atom nil)]
   
     (fn []
       [:div {:style style/root :on-click #(focus)}
@@ -102,8 +90,8 @@
           [:div {:style style/inputs}
            [text-area input-ref!] ; text-area
            [words text (r/atom (str/split @input-ref! #""))]
-           ]]]]]
-      )))
+
+           ]]]]])))
 
 
 (defn results-dialog []
@@ -114,22 +102,18 @@
     :close-dialog "close-dialog"}])
 
 
-(defn mount [el]
+(defn start []
   (rdom/render
-    [app] el))
+    [app]
+    (. js/document (getElementById "app"))))
 
-(defn mount-app-element []
-  (when-let [el (get-app-element)]
-    (mount el)))
+(defn ^:export init []
+  ;; init is called ONCE when the page loads
+  ;; this is called in the index.html and must be exported
+  ;; so it is available even in :advanced release builds
+  (start))
 
-;; conditionally start your application based on the presence of an "app" element
-;; this is particularly helpful for testing this ns without launching the app
-(mount-app-element)
-
-;; specify reload hook with ^;after-load metadata
-(defn ^:after-load on-reload []
-  (mount-app-element)
-  ;; optionally touch your app-state to force rerendering depending on
-  ;; your application
-  ;; (swap! app-state update-in [:__figwheel_counter] inc)
-)
+(defn stop []
+  ;; stop is called before any code is reloaded
+  ;; this is controlled by :before-load in the config
+  (js/console.log "stop"))
