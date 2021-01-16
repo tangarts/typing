@@ -1,20 +1,23 @@
 (ns typing.components.word
-  (:require
-    [clojure.string :as str]
-    [typing.components.character :refer [character color]]))
+  (:require [clojure.string :as str]))
 
 
-; OK
 (def word-css
   {:font-size 18
-   :letter-spacing ".1em"
    :font-family "Source Code Pro, monospace"
    :margin "0 auto"
    :overflow "hidden"
    })
 
+(defn character
+  "if variant red else white "
+  [children variant]
+  (let [color
+        (cond (= variant "white") "#fff"
+              (= variant "black") "ff0033"
+              :else "#111")]
+    [:span {:style {:color color}} children]))
 
-; OK
 (defn get-variant 
   [expected actual i]
   (cond 
@@ -23,8 +26,6 @@
     :else "red"))
 
 
-; OK
-; FEATURES TO ADD
 (defn word 
   "variant: current done awaiting"
   [expected actual variant]
@@ -36,10 +37,11 @@
               (= variant "current")
               {:background "#3bd376"}
               :else {:color "#111"})]
-    (into [:span#text {:style (merge word-css style-obj)}] 
+    (into [:span {:style (merge word-css style-obj)}] 
        (if (not= variant "current") expected
          (map #(character %1 %2) expected
               (map #(get-variant expected actual %) index))))))
+
 
 
 

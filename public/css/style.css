@@ -17,3 +17,8 @@ body {
 .incorrect {
     color: red;
 }
+
+.cursor {
+    background: "#3bd376";
+
+}

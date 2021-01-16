@@ -4,6 +4,12 @@
 ; :font-family "Special Elite"  
   )
 
+(def word-css
+  {:font-size 18
+   :font-family "Source Code Pro, monospace"
+   :overflow "hidden"
+   })
+
 (def root
   {
    :font-family "sans-serif"

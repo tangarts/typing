@@ -1,6 +1,5 @@
 (ns typing.components.character)
 
-(def color {:white "#fff" :red "#ff0033" :black "#111"})
 
 (defn character
   "if variant red else white "
