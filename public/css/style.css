@@ -11,14 +11,14 @@ body {
 }
 
 .correct {
-    color: green;
+    color: #1c54ff;
 }
 
 .incorrect {
-    color: red;
+    color: #f20434;
 }
 
 .cursor {
-    background: "#3bd376";
-
+    background: #3bd376;
+    color: #111;
 }

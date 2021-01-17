@@ -1,5 +1,7 @@
 (ns typing.components.word
-  (:require [clojure.string :as str]))
+  (:require 
+    [reagent.core :as r]
+    [clojure.string :as str]))
 
 
 (def word-css
@@ -17,6 +19,32 @@
               (= variant "black") "ff0033"
               :else "#111")]
     [:span {:style {:color color}} children]))
+
+(comment 
+ ; A character can be:
+ ; waiting "" (or (nil? actual) (<= (count actual) i))
+ ;
+ ; Done -> {correct,incorrect} 
+ ;
+ ; current (= i (count @input-ref!)) 
+ ;
+ ; update class with atoms
+ ; ["" "done" "current"]
+  
+)
+
+; (defn character
+;   "if variant red else white "
+;   [children variant]
+;   (let [color
+;         (cond (= variant "white") "#fff"
+;               (= variant "black") "ff0033"
+;               :else "#111")
+;         character-state (r/atom "")]
+;     (fn [children variant]
+;       [:span {:style {:color color}
+;             :class [""]}
+;      children])))
 
 (defn get-variant 
   [expected actual i]
@@ -37,7 +65,7 @@
               (= variant "current")
               {:background "#3bd376"}
               :else {:color "#111"})]
-    (into [:span {:style (merge word-css style-obj)}] 
+    (into [:span {:style (merge word-css style-obj) }] 
        (if (not= variant "current") expected
          (map #(character %1 %2) expected
               (map #(get-variant expected actual %) index))))))
