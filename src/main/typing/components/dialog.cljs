@@ -3,6 +3,14 @@
     [typing.components.percentile :as percentile]
     ))
 
+
+(defn results-dialog []
+  [:results-dialog
+   {:open "typing-state is finished?"
+    :expected "words todo"
+    :actual "input-words todo"
+    :close-dialog "close-dialog"}])
+
 (def percentageBar {
   :min-width 360
   :width "100%"
@@ -13,23 +21,22 @@
   :borderRadius "20"
   })
 
-; (defn completePercentageBar 
-;   [percentage: number, isError = false]
-;  css({
-;    width: `${percentage}%`,
-;    height: "100%",
-;    background: isError ? "#fd3c01" : "#009688",
-;    borderRadius: 20,
-;    position: "absolute"
-;  });
-;
+(defn complete-percentage-bar
+  [percentage is-error?]
+ {:width (str percentage "%")
+  :height "100%"
+  :background (if is-error? "#fd3c01" "#009688")
+  :borderRadius 20
+  :position "absolute" })
+
+
 ;interface ResultDialogProps {
 ;  open: boolean;
 ;  closeDialog: (event: React.MouseEvent<HTMLElement>) => void;
 ;  expected: string[];
 ;  actual: string[];
 ;}
-;
+
 ;const ResultDialog = ({
 ;  open,
 ;  closeDialog,
@@ -41,7 +48,7 @@
 ;  const mistakes: { actual: string; expected: string }[] = actual
 ;    .map((actual, i) => ({ actual, expected: expected[i] }))
 ;    .filter(({ expected, actual }) => expected !== actual && actual !== "");
-;
+
 ;  const cpm = actual.map(word => word.length).reduce((a, b) => a + b + 1, 0);
 ;  const cpmCorrected = actual.filter((actual, i) => actual === expected[i]).map(word => word.length).reduce((a, b) => a + b + 1, 0);
 ;
@@ -96,5 +103,3 @@
 ;    </Dialog>
 ;  );
 ;};
-;
-;export default ResultDialog;

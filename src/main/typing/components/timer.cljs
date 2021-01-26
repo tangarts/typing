@@ -1,6 +1,8 @@
 (ns typing.components.timer
   (:require 
     [reagent.core :as r]
+    [typing.components.style :as style]
+   [typing.state :as state]
     [clojure.string :as string]))
 
 (extend-type number
@@ -41,55 +43,32 @@
      :on? true}))
 
 
-(def state (r/atom (default-state)))
 
-(def history (r/atom []))
 
 (defn get-state
   ([key & keys]
      (map get-state (conj keys key)))
   ([key]
-     (get-in @state [key])))
-
-(defn set-state!
-  ([val-map]
-     (swap! state merge val-map))
-  ([key val]
-     (swap! state assoc key val)))
+     (get-in @state/timer [key])))
 
 (defn on? [] (get-state :on?))
 
+(defn set-state!
+  ([val-map]
+     (swap! state/timer merge val-map))
+  ([key val]
+     (swap! state/timer assoc key val)))
+
+
 
 (defn timer-component []
-  (let [start (:stime @state)
-        timer (r/atom (time-diff (:stime @state) (.now js/Date))) ]
+  (let [start (:stime @state/timer)
+        timer (r/atom (time-diff (:stime @state/timer) (.now js/Date))) ]
     (fn []
       (js/setInterval
-        #(when (on?) (reset! timer (time-diff (:stime @state) (now))))
+        #(reset! timer (time-diff (:stime @state/timer) (now)))
+        ;(when (on?) )
        1000)
-      [:div "timer: " (display-time @timer)])))
-
-
-(defn btn
-  "Creates a large button"
-  ([body] (btn {} body))
-
-  ([{:keys [disabled?] :as opts} & body]
-     [:button (merge {:class (str "btn")
-                      :disabled disabled?}
-                     (select-keys opts [:on-click]))
-      body]))
-
-(defn icon [name]
-  [:i {:class (str "fa fa-" name)} name])
-
-(defn controls-view []
-  (let [on-toggle #(set-state! :on? (not (on?)))
-        on-reset #(when-not (on?)
-                    (set-state! (default-state)))]
-
-    [:div {:class "buttons"}
-     [btn {:on-click on-toggle} [icon (if (on?) "pause" "play")]]
-     [btn {:on-click on-reset :disabled? (on?)} [icon "refresh"]]]))
+      [:div (display-time @timer)])))
 
 

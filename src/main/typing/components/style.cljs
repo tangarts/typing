@@ -25,13 +25,17 @@
 
 
 (def container
-  {
-   :margin "10px auto"
+  {:margin "10px auto"
    :max-width 750
    :width "90%"
    })
 
-(def board { :margin-bottom "15px" :overflow "hidden" })
+(def board 
+  {:margin-bottom "15px"
+   :overflow "hidden"
+   :background-color "#fff"
+   :border-radius 5
+   :box-shadow "2px 5px 5px grey"})
 
 (def statistics {
   :padding "8px 20px"
@@ -44,7 +48,13 @@
 })
 
 (def inputs {
-;  :user-select "none"
+  :user-select "none"
   :overflow "hidden"
-  ; :height 360
 })
+
+(def button
+  {
+    :background "transparent" ;
+    :border "none";
+    :color "inherit"
+   })
