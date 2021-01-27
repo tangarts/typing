@@ -1,11 +1,15 @@
-(ns typing.components.character)
-
+(ns typing.components.character
+  (:require 
+    [typing.components.style :refer [word-css]]))
 
 (defn character
-  "if variant red else white "
-  [children variant]
-  (let [color
-        (cond (= variant "white") "#fff"
-              (= variant "black") "ff0033"
-              :else "#111")]
-    [:span {:style {:color color}} children]))
+  [expected actual variant]
+  (let [is-match (= expected actual)]
+    [:span {:style word-css
+            :class
+            [(cond (= variant "done")
+                   (if is-match "correct" "incorrect")
+                   (= variant "current") "cursor"
+                   :else "awaiting")
+             ]}
+     expected]))

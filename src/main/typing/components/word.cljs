@@ -33,20 +33,6 @@
   
 )
 
-(defn character-
-  [expected actual variant]
-  (let [is-match (= expected actual)
-        style-obj (cond (= variant "done") 
-              {:color (if is-match "#1c54ff" "#f20434")}
-              (= variant "current")
-              {:background "#3bd376"}
-              :else {:color "#111"})]
-    [:span {:style word-css
-            :class [(cond (= variant "done")
-                          (if is-match "correct" "incorrect")
-                          (= variant "current") "cursor"
-                          :else ""
-                          )]} expected]))
 
 
 (defn character

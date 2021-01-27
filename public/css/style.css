@@ -5,13 +5,12 @@
 }
 
 body {
-  background: #32302f; /* bc no white bg */
   padding: 0;
   margin: 0;
 }
 
 .correct {
-    color: #1c54ff;
+    color: #111;
 }
 
 .incorrect {
@@ -19,7 +18,11 @@ body {
 }
 
 .cursor {
-    background: #3bd376;
-    color: #111;
+    background-color: #000;
+    color: #fff;
+    outline: 1px solid #fff; /* ? */
 }
 
+.awaiting {
+    color: #808080;
+}

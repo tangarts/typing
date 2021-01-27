@@ -2,11 +2,10 @@
   (:require
    [reagent.core :as r]
    [typing.components.style :as style]
-   [typing.components.word :refer [character-]]
+   [typing.components.character :refer [character]]
    [typing.state :as state]
    [typing.utils :refer [strip-text random-text]]
    [typing.components.timer :refer [timer-component]]
-   
    [clojure.string :as string]))
 
 
@@ -29,7 +28,7 @@
   (into [:div ]
         (for [[i c] (map-indexed vector text)]
           ^{:key i}
-          [character-
+          [character
            c
            (get @actual i)
            (get-word-type i (count @actual))])))
@@ -49,9 +48,10 @@
 
 
 (defn finished?
-  [text input-ref!]
-  (when (>= (inc (count @input-ref!)) (count @text))
-    [:p "Done"]))
+  []
+  (when (= @state/input (string/join @state/text))
+    #((reset! state/text (strip-text (random-text)))
+      (reset! state/input nil))))
 
 (defn icon [name & body]
   [:i {:class (str "fa fa-lg fa-" name)
@@ -63,10 +63,7 @@
      [:button {:on-click
                #((swap! state/timer merge (default-state))
                  (reset! state/text (strip-text (random-text)))
-                 (reset! state/input nil)
-                 
-                 ; (swap! state/timer)
-                         )
+                 (reset! state/input nil))
                :style style/button}
       [icon "refresh"]]]))
 
@@ -92,10 +89,11 @@
            ]]
          [:div {:style {:padding "35px 25px"}}
           [:div {:style style/inputs}
-           [text-area input-ref!] ; hidden text-area
+           [text-area state/input] ; hidden text-area
 
-           [render-text @text (r/atom (string/split @input-ref! #""))]
+           [render-text @state/text
+            (r/atom (string/split @state/input #""))]
 
-           [finished? text input-ref!]
+           [finished?]
            ]]]]])))
 

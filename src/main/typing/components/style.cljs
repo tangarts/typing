@@ -11,8 +11,7 @@
    })
 
 (def root
-  {
-   :font-family "sans-serif"
+  {:font-family "sans-serif"
    :width "100%"
    :height "100%"
    :min-height "100vh"
@@ -25,7 +24,7 @@
 
 
 (def container
-  {:margin "10px auto"
+  {:margin "8px auto"
    :max-width 750
    :width "90%"
    })
@@ -34,27 +33,28 @@
   {:margin-bottom "15px"
    :overflow "hidden"
    :background-color "#fff"
-   :border-radius 5
-   :box-shadow "2px 5px 5px grey"})
+   :border-radius 6
+   :box-shadow "2px 4px 2px #808080"
+   })
 
-(def statistics {
-  :padding "8px 20px"
-  :display "flex"
-  :flex-direction "row"
-  :background "#444"
-  :color "white"
-  :align-items "center"
-  :font-size 13
-})
+(def statistics
+  {:padding "8px 16px"
+   :display "flex"
+   :flex-direction "row"
+   :background "#444"
+   :color "#fff"
+   :align-items "center"
+   :font-size 12
+   :box-shadow "1px 2px 1px #808080"
+   })
 
-(def inputs {
-  :user-select "none"
-  :overflow "hidden"
-})
+(def inputs
+  {:user-select "none"
+   :overflow "hidden"
+   })
 
 (def button
-  {
-    :background "transparent" ;
-    :border "none";
-    :color "inherit"
+  {:background "transparent" ;
+   :border "none";
+   :color "inherit"
    })
