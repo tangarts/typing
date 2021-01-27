@@ -2,7 +2,7 @@
   (:require 
     [reagent.core :as r]
     [typing.components.style :as style]
-   [typing.state :as state]
+    [typing.state :as state]
     [clojure.string :as string]))
 
 (extend-type number

@@ -1,7 +1,8 @@
 (ns typing.state 
   (:require 
     [reagent.core :as r]
-    [typing.utils :refer [strip-text random-text]]
+    [typing.utils :refer [strip-text]]
+    [typing.components.text :refer [random-text]]
     ))
 
 

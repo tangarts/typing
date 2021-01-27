@@ -35,10 +35,11 @@
    :background-color "#fff"
    :border-radius 6
    :box-shadow "2px 4px 2px #808080"
+   :height "240px"
    })
 
 (def statistics
-  {:padding "8px 16px"
+  {:padding "12px 16px"
    :display "flex"
    :flex-direction "row"
    :background "#444"

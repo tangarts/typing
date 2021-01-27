@@ -14,7 +14,8 @@ body {
 }
 
 .incorrect {
-    color: #f20434;
+    color: #fff;
+    background-color: #f20434;
 }
 
 .cursor {

@@ -2,7 +2,6 @@
   (:require
     [reagent.core :as r]
     [clojure.string :as string]
-    [typing.components.text :refer [road-not-taken-1 ex-1 voltaire yeats meditations-2-1 e-to-a seneca]]
     ))
 
 (comment 
@@ -10,8 +9,14 @@
   ; and utils like timer
 )
 
-;; Compatability
-;; Must extend number for js/Number since time is represented as milliseconds
+
+; WPM means Words Per Minute. It is a measure of the output speed on a
+; keyboard. Here's how it works:
+; - start a timer and start typing for exactly 1 minute
+; - count how many characters you just typed including spaces and
+; punctuation
+; - divide that value by 5 (the WPM system considers a word is 5 keystrokes)
+; - the result is your Words Per Minute speed
 
 
 (def cpm (r/atom 0))
@@ -22,8 +27,6 @@
     (/ (Math/floor (* characters 60)) time-elapsed)))
 
 
-(defn random-text []
-  (rand-nth [road-not-taken-1 ex-1 voltaire yeats e-to-a seneca]))
 
 (defn strip-text [text] 
   (string/split text #""))
