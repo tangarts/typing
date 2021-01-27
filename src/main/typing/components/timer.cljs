@@ -33,17 +33,6 @@
 (defmethod display-time js/Number [t] (format-time (->date t)))
 (defmethod display-time js/Date [d] (format-time d))
 
-(defn time-diff [start end] (- end start))
-
-(defn default-state []
-  "Generates a map with start/end time keys"
-  (let [now (now)]
-    {:stime now
-     :etime nil
-     :on? true}))
-
-
-
 
 (defn get-state
   ([key & keys]
@@ -63,11 +52,12 @@
 
 (defn timer-component []
   (let [start (:stime @state/timer)
-        timer (r/atom (time-diff (:stime @state/timer) (.now js/Date))) ]
+        timer (r/atom (- (.now js/Date) 
+                         (:stime @state/timer)))]
     (fn []
       (js/setInterval
-        #(reset! timer (time-diff (:stime @state/timer) (now)))
-        ;(when (on?) )
+        #(when (on?)
+          (reset! timer (- (now) (:stime @state/timer) )))
        1000)
       [:div (display-time @timer)])))
 

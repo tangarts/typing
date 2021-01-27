@@ -6,7 +6,7 @@
    [typing.state :as state]
    [typing.utils :refer [strip-text]]
    [typing.components.text :refer [random-text]]
-   [typing.components.timer :refer [timer-component]]
+   [typing.components.timer :refer [timer-component display-time]]
    [clojure.string :as string]))
 
 
@@ -15,7 +15,7 @@
   (let [now (.now js/Date)]
     {:stime now
      :etime nil
-     :on? true}))
+     :on? false}))
 
 
 (defn get-word-type [a b]
@@ -45,16 +45,11 @@
       :auto-focus "true"
       :value @state/input
       :on-change #(reset! state/input (-> % .-target .-value))
-      ;:on-key-down (fn [e] (.log js/console (.-key e)))
+      :on-key-down #(swap! state/timer assoc :on? true) 
+      ;(fn [e] (.log js/console (.-key e)))
       }]))
 
 
-(defn finished?  []
-  (when (= @state/input (string/join @state/text))
-    ((reset! state/text (strip-text (random-text)))
-      (reset! state/input nil))
-    ; (swap! (:etime state/timer (.now js/Date)))
-    ))
 
 (defn icon [name & body]
   [:i {:class (str "fa fa-lg fa-" name)
@@ -62,19 +57,29 @@
 
 (defn get-cpm
   []
-  (/ (Math/floor (* (count @state/input) 60))
-     (/ (- (.now js/Date) (:stime @state/timer)) 1000)))
+  (Math/floor
+    (/ (* (count @state/input) 60)
+       (/ (- (:etime @state/timer) (:stime @state/timer)) 1000))))
 
 (defn get-wpm [] (/ (get-cpm) 5))
+
+(defn finished?  []
+  (when (= @state/input (string/join @state/text))
+    (swap! state/timer assoc :on? false)
+    (swap! state/timer assoc :etime (.now js/Date))
+    [:div {:style {:margin-left "8px"}}
+     "WPM: " (get-wpm)]))
+
 
 (defn control-view []
   (fn []
     [:div 
-     [:button {:on-click
-               #((swap! state/timer merge (default-state))
-                 (reset! state/text (strip-text (random-text)))
-                 (reset! state/input nil))
-               :style style/button}
+     [:button
+      {:on-click #(do
+                    (swap! state/timer merge (default-state))
+                    (reset! state/text (strip-text (random-text)))
+                    (reset! state/input nil))
+       :style style/button}
       [icon "refresh"]]]))
 
 (defn nav []
@@ -91,7 +96,6 @@
    [:div {:style style/board}
     [:div {:style style/statistics}
       [timer-component]
-      [:div {:style {:margin-left "8px"}} "CPM: " ] ; fix
 
       [:div {:style {:flex-grow "1"}}]
       [finished?]
@@ -100,11 +104,12 @@
 
 (defn app [] 
   (fn []
-      [:div {:style style/root
-             :on-click #(-> js/document
-                            (.getElementById "input") (.focus))}
-       [nav]
-       [text-area] ; hidden text-area
-       [container]
-       [footer]]))
+    [:div {:style style/root
+           :on-click #(-> js/document
+                          (.getElementById "input") (.focus))
+           }
+     [nav]
+     [text-area] ; hidden text-area
+     [container]
+     [footer]]))
 
