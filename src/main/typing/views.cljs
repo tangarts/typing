@@ -26,7 +26,8 @@
 
 (defn render-text []
   (let [actual (r/atom (string/split @state/input #""))]
-    (into [:div ]
+    (into [:div {:style {:padding "36px 24px"}}
+           [:div {:style style/inputs}]] 
         (for [[i c] (map-indexed vector @state/text)]
           ^{:key i}
           [character
@@ -76,30 +77,34 @@
                :style style/button}
       [icon "refresh"]]]))
 
+(defn nav []
+  [:nav {:style {:position "absolute" :top 0 :right "32px" }}
+   [:div [:p [:a {:href "#"} "nav"] ] ]])
+
+(defn footer []
+  [:footer {:style {:bottom 0 :position "absolute"}}
+   [:p "made by "
+    [:a {:href "https://tangarts.github.io/about"} "tangarts"] ]])
+
+(defn container []
+  [:section {:style style/container} 
+   [:div {:style style/board}
+    [:div {:style style/statistics}
+      [timer-component]
+      [:div {:style {:margin-left "8px"}} "CPM: " ] ; fix
+
+      [:div {:style {:flex-grow "1"}}]
+      [finished?]
+      [control-view]]
+    [render-text]]])
+
 (defn app [] 
   (fn []
-      [:main {:style style/root
+      [:div {:style style/root
              :on-click #(-> js/document
                             (.getElementById "input") (.focus))}
-       [:div {:style style/container} 
-        [:div {:style style/board}
-         [:div 
-          [:div {:style style/statistics}
-
-           [timer-component]
-           [:div {:style {:margin-left "8px"}}
-            " CPM: " ] ; fix
-
-           [:div {:style {:flex-grow "1"}}]
-
-           [finished?]
-           [control-view]
-           ]]
-         [:div {:style {:padding "35px 25px"}}
-          [:div {:style style/inputs}
-           [text-area] ; hidden text-area
-
-           [render-text]
-
-           ]]]]]))
+       [nav]
+       [text-area] ; hidden text-area
+       [container]
+       [footer]]))
 
