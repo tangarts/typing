@@ -10,19 +10,12 @@
    [clojure.string :as string]))
 
 
-(defn default-state []
-  "Generates a map with start/end time keys"
-  (let [now (.now js/Date)]
-    {:stime now
-     :etime nil
-     :on? false}))
-
-
 (defn get-word-type [a b]
   (cond 
     (< a b) "done"
     (= a b) "current"
     :else "awaiting"))
+
 
 (defn render-text []
   (let [actual (r/atom (string/split @state/input #""))]
@@ -34,7 +27,6 @@
            c
            (get @actual i)
            (get-word-type i (count @actual))]))))
-
 
 
 (defn text-area []
@@ -59,7 +51,8 @@
   []
   (Math/floor
     (/ (* (count @state/input) 60)
-       (/ (- (:etime @state/timer) (:stime @state/timer)) 1000))))
+       (/ (- (:etime @state/timer)
+             (:stime @state/timer)) 1000))))
 
 (defn get-wpm [] (/ (get-cpm) 5))
 
@@ -76,7 +69,7 @@
     [:div 
      [:button
       {:on-click #(do
-                    (swap! state/timer merge (default-state))
+                    (swap! state/timer merge (state/default-state))
                     (reset! state/text (strip-text (random-text)))
                     (reset! state/input nil))
        :style style/button}
@@ -92,7 +85,9 @@
     [:a {:href "https://tangarts.github.io/about"} "tangarts"] ]])
 
 (defn container []
-  [:section {:style style/container} 
+  [:section {:style style/container
+             :on-click #(-> js/document (.getElementById "input") (.focus))
+             } 
    [:div {:style style/board}
     [:div {:style style/statistics}
       [timer-component]
@@ -105,10 +100,8 @@
 (defn app [] 
   (fn []
     [:div {:style style/root
-           :on-click #(-> js/document
-                          (.getElementById "input") (.focus))
            }
-     [nav]
+;     [nav]
      [text-area] ; hidden text-area
      [container]
      [footer]]))
