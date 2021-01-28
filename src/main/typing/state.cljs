@@ -6,6 +6,8 @@
     ))
 
 
+(def finished? (r/atom false))
+
 (def history (r/atom []))
 
 (def text (r/atom (strip-text (random-text))))
@@ -17,7 +19,7 @@
   (let [now (.now js/Date)]
     {:stime now
      :etime nil
-     :on? false}))
+     :on? true}))
 
 (def timer (r/atom (default-state)))
 

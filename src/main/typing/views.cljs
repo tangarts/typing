@@ -37,7 +37,8 @@
       :auto-focus "true"
       :value @state/input
       :on-change #(reset! state/input (-> % .-target .-value))
-      :on-key-down #(swap! state/timer assoc :on? true) 
+      :disabled (if @state/finished? "true" "") 
+;      :on-key-down #(swap! state/timer assoc :on? true) 
       ;(fn [e] (.log js/console (.-key e)))
       }]))
 
@@ -47,6 +48,7 @@
   [:i {:class (str "fa fa-lg fa-" name)
        :aria-hidden true} body])
 
+
 (defn get-cpm
   []
   (Math/floor
@@ -54,14 +56,19 @@
        (/ (- (:etime @state/timer)
              (:stime @state/timer)) 1000))))
 
+
 (defn get-wpm [] (/ (get-cpm) 5))
+
 
 (defn finished?  []
   (when (= @state/input (string/join @state/text))
     (swap! state/timer assoc :on? false)
     (swap! state/timer assoc :etime (.now js/Date))
+    (reset! state/finished? true)
     [:div {:style {:margin-left "8px"}}
      "WPM: " (get-wpm)]))
+
+
 
 
 (defn control-view []
@@ -71,37 +78,41 @@
       {:on-click #(do
                     (swap! state/timer merge (state/default-state))
                     (reset! state/text (strip-text (random-text)))
-                    (reset! state/input nil))
+                    (reset! state/input nil)
+                    (reset! state/finished? false))
        :style style/button}
       [icon "refresh"]]]))
+
 
 (defn nav []
   [:nav {:style {:position "absolute" :top 0 :right "32px" }}
    [:div [:p [:a {:href "#"} "nav"] ] ]])
+
 
 (defn footer []
   [:footer {:style {:bottom 0 :position "absolute"}}
    [:p "made by "
     [:a {:href "https://tangarts.github.io/about"} "tangarts"] ]])
 
+
 (defn container []
-  [:section {:style style/container
-             :on-click #(-> js/document (.getElementById "input") (.focus))
-             } 
+  [:section {:style style/container } 
    [:div {:style style/board}
     [:div {:style style/statistics}
-      [timer-component]
-
-      [:div {:style {:flex-grow "1"}}]
-      [finished?]
-      [control-view]]
+     [timer-component]
+     [:div {:style {:flex-grow "1"}}]
+     [finished?]
+     [control-view]]
     [render-text]]])
 
-(defn app [] 
+
+(defn app []
   (fn []
     [:div {:style style/root
-           }
-;     [nav]
+           :on-click #(when (not @state/finished?)
+                        (-> js/document (.getElementById "input")
+                            (.focus))) }
+     ;     [nav]
      [text-area] ; hidden text-area
      [container]
      [footer]]))
