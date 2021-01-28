@@ -7,11 +7,29 @@
     "tailwindcss": "^2.0.2"
   },
   "dependencies": {
-    "@material-ui/core": "4.11.2",
-    "@material-ui/lab": "4.0.0-alpha.57",
-    "@material-ui/pickers": "3.2.10",
     "autoprefixer": "^10.2.3",
     "react": "16.13.0",
     "react-dom": "16.13.0"
-  }
+  },
+  "description": "typing app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "shadow-cljs watch app",
+    "compile": "shadow-cljs compile app",
+    "release": "shadow-cljs release app",
+    "repl": "shadow-cljs cljs-repl app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tangarts/typing.git"
+  },
+  "author": "Nehemiah Tang-Campbell",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tangarts/typing/issues"
+  },
+  "homepage": "https://github.com/tangarts/typing#readme"
 }
+
+
