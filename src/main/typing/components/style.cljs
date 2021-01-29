@@ -35,7 +35,7 @@
    :background-color "#fff"
    :border-radius 6
    :box-shadow "2px 4px 2px #808080"
-   :height "240px"
+   :min-height "240px"
    })
 
 (def statistics

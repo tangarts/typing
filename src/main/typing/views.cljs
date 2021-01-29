@@ -18,7 +18,7 @@
 
 
 (defn render-text []
-  (let [actual (r/atom (str/split @state/input #""))]
+  (let [actual (r/atom (strip-text @state/input))]
     (into [:div {:style {:padding "36px 24px"}}
            [:div {:style style/inputs}]] 
         (for [[i c] (map-indexed vector @state/text)]

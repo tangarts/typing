@@ -7,14 +7,30 @@
 
 (def voltaire "The library is one of the noblest of institutions. There has never been an expense more magnificent and more useful")
 
-(def yeats "He who hath made the night of stars / For souls who tire and bleed, / Sent one of his great angels down / To help me in my need.")
-
-(def road-not-taken-1 "TWO roads diverged in a yellow wood, And sorry I could not travel both And be one traveler, long I stood And looked down one as far as I could To where it bent in the undergrowth;")
-
-(def e-to-a "IN these deep solitudes and awful cells,")
-
 (def seneca "Luck is where opportunity meets preparation.")
 
+(def dune "I must not fear. Fear is the mind-killer. Fear is the little-death that brings total obliteration. I will face my fear. I will permit it to pass over me and through me. And when it has gone past I will turn the inner eye to see its path. Where the fear has gone there will be nothing. Only I will remain." )
+
+
+;; https://arcana.computer/catalogs/quotes 
+
+;  François de La Rochefoucauld 
+(def roch "Sincere enthusiasm is the only orator who always persuades. It is like an art the rules of which never fail; the simplest man with enthusiasm persuades better than the most eloquent with none.")
+
+; https://unthinking.photography/articles/on-lacework
+(def pipkin "I become grateful to wake up every day knowing how I will spend it. I'm not building a cathedral, but I think about what building a cathedral would let me do, how it would allow me to move my hands in a task and see something monumental grow very slowly, with immense care. A bricklayer understands brick in a way that is devotional. Repetition is devotional.")
+
+; https://www.gwern.net/Traffic
+(def dinesen "No, no, let us work just one more hour; let us compose just one more page. Of course we shall not get the book done, but we must keep on trying to finish a little more…When you have a great and difficult task, something perhaps almost impossible, if you only work a little at a time, every day a little, without faith and without hope, suddenly the work will finish itself.")
+
+(def eliot "Home is where one starts from. As we grow older The world becomes stranger, the pattern more complicated Of dead and living. Not the intense moment Isolated, with no before and after, But a lifetime burning in every moment And not the lifetime of one man only But of old stones that cannot be deciphered. There is a time for the evening under starlight, A time for the evening under lamplight.")
+
+; bird by bird
+(def lamott "Writing has so much to give, so much to teach, so many surprises. That thing you had to force yourself to do-the actual act of writing-turns out to be the best part. It's like discovering that while you thought you needed the tea ceremony for the caffeine, what you really needed was the tea ceremony. The act of writing turns out to be its own reward.")
+
+; https://medium.com/conversations-with-tyler/patrick-collison-stripe-podcast-tyler-cowen-books-3e43cfe42d10
+(def cowen "So, I'll pick up a book, put it down. Someone says, “How long did it take you to read that book?” And I'll say, “Fifty-two years,” because I've been reading since I was three, and that's the correct answer. People don't get that. It took me 52 years to read that book. So I'm not a fast reader. I'm a very, very slow reader. You're just mis-measuring the unit if you think I read something quickly.")
 
 (defn random-text []
-  (rand-nth [road-not-taken-1 ex-1 voltaire yeats e-to-a seneca]))
+  (rand-nth [lamott eliot dinesen pipkin roch dune ex-1 voltaire seneca cowen]))
+
