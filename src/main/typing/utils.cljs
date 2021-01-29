@@ -1,8 +1,7 @@
 (ns typing.utils
   (:require
     [reagent.core :as r]
-    [clojure.string :as string]
-    ))
+    [clojure.string :as str]))
 
 (comment 
   ; code for random stuff
@@ -29,4 +28,4 @@
 
 
 (defn strip-text [text] 
-  (string/split text #""))
+  (str/split text #""))

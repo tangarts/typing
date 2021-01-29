@@ -1,13 +1,13 @@
 (ns typing.views
   (:require
    [reagent.core :as r]
-   [typing.components.style :as style]
-   [typing.components.character :refer [character]]
    [typing.state :as state]
    [typing.utils :refer [strip-text]]
+   [typing.components.style :as style]
    [typing.components.text :refer [random-text]]
+   [typing.components.character :refer [character]]
    [typing.components.timer :refer [timer-component display-time]]
-   [clojure.string :as string]))
+   [clojure.string :as str]))
 
 
 (defn get-word-type [a b]
@@ -18,7 +18,7 @@
 
 
 (defn render-text []
-  (let [actual (r/atom (string/split @state/input #""))]
+  (let [actual (r/atom (str/split @state/input #""))]
     (into [:div {:style {:padding "36px 24px"}}
            [:div {:style style/inputs}]] 
         (for [[i c] (map-indexed vector @state/text)]
@@ -61,7 +61,7 @@
 
 
 (defn finished?  []
-  (when (= @state/input (string/join @state/text))
+  (when (= @state/input (str/join @state/text))
     (swap! state/timer assoc :on? false)
     (swap! state/timer assoc :etime (.now js/Date))
     (reset! state/finished? true)
@@ -69,17 +69,14 @@
      "WPM: " (get-wpm)]))
 
 
-
-
 (defn control-view []
   (fn []
     [:div 
      [:button
-      {:on-click #(do
-                    (swap! state/timer merge (state/default-state))
-                    (reset! state/text (strip-text (random-text)))
-                    (reset! state/input nil)
-                    (reset! state/finished? false))
+      {:on-click #((swap! state/timer merge (state/default-state))
+                   (reset! state/text (strip-text (random-text)))
+                   (reset! state/input nil)
+                   (reset! state/finished? false))
        :style style/button}
       [icon "refresh"]]]))
 
@@ -109,7 +106,7 @@
 (defn app []
   (fn []
     [:div {:style style/root
-           :on-click #(when (not @state/finished?)
+           :on-click #(when-not @state/finished?
                         (-> js/document (.getElementById "input")
                             (.focus))) }
      ;     [nav]

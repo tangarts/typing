@@ -76,6 +76,6 @@
 
 (defn population-speed-percentile 
   [cpm]
-  (let [k (* 10 (int (/ cpm 10)))]
-    (if (> k 700) 100
-      (get population-speeds (str k)))))
+  (if-let [k (* 10 (int (/ cpm 10)))]
+    ((> k 700) 100)
+    (get population-speeds (str k))))

@@ -7,9 +7,15 @@
   (let [is-match (= expected actual)]
     [:span {:style word-css
             :class
-            [(cond (= variant "done")
-                   (if is-match "correct" "incorrect")
-                   (= variant "current") "cursor"
-                   :else "awaiting")
-             ]}
+            [(case variant
+               "done" (if is-match "correct" "incorrect")
+               "current" "cursor"
+               "awaiting")]}
      expected]))
+
+
+
+; (cond (= variant "done")
+;                    (if is-match "correct" "incorrect")
+;                    (= variant "current") "cursor"
+;                    :else "awaiting")

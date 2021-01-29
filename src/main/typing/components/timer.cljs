@@ -3,7 +3,7 @@
     [reagent.core :as r]
     [typing.components.style :as style]
     [typing.state :as state]
-    [clojure.string :as string]))
+    [clojure.string :as str]))
 
 (extend-type number
   ICloneable
@@ -26,7 +26,7 @@
   (let [min (.getMinutes d)
         sec (.getSeconds d)
         formatted (map #(if (< % 10) (str "0" %) %) [min sec])]
-    (string/join ":" formatted)))
+    (str/join ":" formatted)))
 
 ;; Converts numbers to dates to be passed to `format-time`
 (defmulti display-time (fn [d] (type d)))

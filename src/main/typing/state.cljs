@@ -2,8 +2,7 @@
   (:require 
     [reagent.core :as r]
     [typing.utils :refer [strip-text]]
-    [typing.components.text :refer [random-text]]
-    ))
+    [typing.components.text :refer [random-text]]))
 
 
 (def finished? (r/atom false))
@@ -22,4 +21,11 @@
      :on? true}))
 
 (def timer (r/atom (default-state)))
+
+
+; (defn set-value! [id value]
+;   (swap! state assoc :saved? false))
+
+; (defn get-value [id]
+;   (get @state :key id))
 
