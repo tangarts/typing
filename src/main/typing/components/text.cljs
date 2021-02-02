@@ -29,7 +29,7 @@
 (def lamott "Writing has so much to give, so much to teach, so many surprises. That thing you had to force yourself to do-the actual act of writing-turns out to be the best part. It's like discovering that while you thought you needed the tea ceremony for the caffeine, what you really needed was the tea ceremony. The act of writing turns out to be its own reward.")
 
 ; https://medium.com/conversations-with-tyler/patrick-collison-stripe-podcast-tyler-cowen-books-3e43cfe42d10
-(def cowen "So, I'll pick up a book, put it down. Someone says, “How long did it take you to read that book?” And I'll say, “Fifty-two years,” because I've been reading since I was three, and that's the correct answer. People don't get that. It took me 52 years to read that book. So I'm not a fast reader. I'm a very, very slow reader. You're just mis-measuring the unit if you think I read something quickly.")
+(def cowen "So, I'll pick up a book, put it down. Someone says, 'How long did it take you to read that book?' And I'll say, 'Fifty-two years,' because I've been reading since I was three, and that's the correct answer. People don't get that. It took me 52 years to read that book. So I'm not a fast reader. I'm a very, very slow reader. You're just mis-measuring the unit if you think I read something quickly.")
 
 (defn random-text []
   (rand-nth [lamott eliot dinesen pipkin roch dune ex-1 voltaire seneca cowen]))

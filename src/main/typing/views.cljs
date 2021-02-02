@@ -28,6 +28,8 @@
            (get @actual i)
            (get-word-type i (count @actual))]))))
 
+(render-text)
+
 
 (defn text-area []
   (fn []
@@ -75,7 +77,7 @@
      [:button
       {:on-click #((swap! state/timer merge (state/default-state))
                    (reset! state/text (strip-text (random-text)))
-                   (reset! state/input nil)
+                   (reset! state/input "")
                    (reset! state/finished? false))
        :style style/button}
       [icon "refresh"]]]))

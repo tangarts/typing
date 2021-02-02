@@ -25,7 +25,5 @@
   (let [time-elapsed time]
     (/ (Math/floor (* characters 60)) time-elapsed)))
 
-
-
 (defn strip-text [text] 
-  (str/split text #""))
+  (vec (rest (str/split text #""))))
