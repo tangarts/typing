@@ -48,8 +48,6 @@
   ([key val]
      (swap! state/timer assoc key val)))
 
-
-
 (defn timer-component []
   (let [start (:stime @state/timer)
         timer (r/atom (- (.now js/Date) 
@@ -60,5 +58,3 @@
           (reset! timer (- (now) (:stime @state/timer) )))
        1000)
       [:div (display-time @timer)])))
-
-

@@ -34,7 +34,6 @@
 )
 
 
-
 (defn character
   "if variant red else white "
   [children variant]

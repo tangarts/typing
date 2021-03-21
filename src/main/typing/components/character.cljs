@@ -14,8 +14,12 @@
      expected]))
 
 
+(comment 
+  ; alternative to case
 
 ; (cond (= variant "done")
 ;                    (if is-match "correct" "incorrect")
 ;                    (= variant "current") "cursor"
-;                    :else "awaiting")
+;                    :else "awaiting") 
+  )
+

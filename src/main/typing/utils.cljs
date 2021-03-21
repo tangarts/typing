@@ -17,7 +17,6 @@
 ; - divide that value by 5 (the WPM system considers a word is 5 keystrokes)
 ; - the result is your Words Per Minute speed
 
-
 (def cpm (r/atom 0))
 
 (defn get-cpm
