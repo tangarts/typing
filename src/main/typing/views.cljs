@@ -36,12 +36,12 @@
     [:input#input
      {:style {:position "fixed" :left "-100%" :top "50%"} ; hidden
       :type "text"
-      :auto-focus "true"
+      :auto-focus true
       :value @state/input
       :on-change #(reset! state/input (-> % .-target .-value))
-      :disabled (if @state/finished? "true" "") 
+      :disabled (if @state/finished? true false) 
 ;      :on-key-down #(swap! state/timer assoc :on? true) 
-      ;(fn [e] (.log js/console (.-key e)))
+;     :on-key-press (fn [e] (.log js/console (.-key e)))
       }]))
 
 
