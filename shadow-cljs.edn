@@ -6,17 +6,17 @@
 
  ;; ADD - CIDER middleware for nREPL (required by fireplace.vim)
  :dependencies [
-   ; [binaryage/devtools "0.9.7"]
-   ; [cider/cider-nrepl  "0.24.0"]
+    [binaryage/devtools "0.9.7"]
+    [cider/cider-nrepl  "0.24.0"]
    [reagent "1.1.0" ]]
 
  ;; ADD - a port for nREPL to which fireplace.vim connects
- ;000 :nrepl
- ; {:port 3333}
+ :nrepl
+  {:port 3333}
 
  ;; ADD - a port for the developmemt-time HTTP server that serves the app
 
-  :dev-http {8080 "public"}
+ :dev-http {8080 "public"}
  :builds
  {:app
   {:target :browser
@@ -29,14 +29,14 @@
      :init-fn typing.core/init}}
 
    ;; start a development http server on http://localhost:8020
-  ; :devtools
-  ; ;; before live-reloading any code call this function
-  ; {:before-load typing.core/stop
-  ;  ;; after live-reloading finishes call this function
-  ;  :after-load typing.core/start
-  ;  ;; serve the public directory over http at port 8700
-  ;  :http-root    "public"
-  ;  :http-port    8700
-  ;  :preloads     [devtools.preload]}
+  :devtools
+  ;; before live-reloading any code call this function
+  {:before-load typing.core/stop
+   ;; after live-reloading finishes call this function
+   :after-load typing.core/start
+   ;; serve the public directory over http at port 8700
+   :http-root    "public"
+   :http-port    8700
+   :preloads     [devtools.preload]}
 
    }}}
