@@ -24,3 +24,6 @@ pom.xml.asc
 /dist
 ref/*
 *.swp
+.lsp/
+.calva/
+.clj-kondo/
