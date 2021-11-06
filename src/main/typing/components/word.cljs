@@ -4,12 +4,7 @@
     [clojure.string :as str]))
 
 
-(def word-css
-  {:font-size 18
-   :font-family "Source Code Pro, monospace"
-   :margin "0 auto"
-   :overflow "hidden"
-   })
+
 
 ; (defn character
 ;   "if variant red else white "

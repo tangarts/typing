@@ -36,5 +36,5 @@ by the wind that freshened and faded and shed scattered sparks down the storm li
 of light all bound in a precarious truce before this torch whose brightness had set back the stars in their sockets.")
 
 (defn random-text []
-  (rand-nth [lamott eliot dinesen pipkin roch dune ex-1 voltaire seneca cowen]))
+  (rand-nth [meditations-2-1 lamott eliot dinesen pipkin roch dune ex-1 voltaire seneca cowen]))
 

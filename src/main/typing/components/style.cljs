@@ -8,6 +8,7 @@
   {:font-size 18
    :font-family "Source Code Pro, monospace"
    :overflow "hidden"
+   :margin "0 auto"
    })
 
 (def root
