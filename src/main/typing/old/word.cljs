@@ -29,25 +29,9 @@
 )
 
 
-(defn character
-  "if variant red else white "
-  [children variant]
-  (let [color
-        (cond (= variant "white") "#fff"
-              (= variant "black") "ff0033"
-              :else "#111")
-        character-state (r/atom "")]
-    (fn [children variant]
-      [:span {:style {:color color}
-            :class [""]}
-     children])))
 
-(defn get-variant 
-  [expected actual i]
-  (cond 
-    (or (nil? actual) (<= (count actual) i)) "black"
-    (= (nth expected i) (nth actual i)) "white"
-    :else "red"))
+
+
 
 
 (defn word 
