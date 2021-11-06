@@ -15,6 +15,7 @@
 
 
 (defn now [] (.now js/Date))
+
 (defn ->date
   "Creates a date object"
   ([] (->date (now)))

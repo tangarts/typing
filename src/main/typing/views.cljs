@@ -42,15 +42,14 @@
        :aria-hidden true} body])
 
 
-(defn get-cpm
-  []
+(defn get-cpm [input timer]
   (Math/floor
-    (/ (* (count @state/input) 60)
-       (/ (- (:etime @state/timer)
-             (:stime @state/timer)) 1000))))
+    (/ (* (count input) 60)
+       (/ (- (:etime timer)
+             (:stime timer)) 1000))))
 
 
-(defn get-wpm [] (/ (get-cpm) 5))
+(defn get-wpm [input timer] (/ (get-cpm input timer) 5))
 
 
 (defn finished?  []
@@ -59,7 +58,7 @@
     (swap! state/timer assoc :etime (.now js/Date))
     (reset! state/finished? true)
     [:div {:style {:margin-left "8px"}}
-     "WPM: " (get-wpm)]))
+     "WPM: " (get-wpm @state/input @state/timer)]))
 
 
 (defn control-view []
