@@ -1,6 +1,6 @@
 # Touch typing 
 
-![screenshot](images/demo.jpg)
+![screenshot](public/images/demo.jpg)
 
 Test your touch typing skills on curated quotes.
 
