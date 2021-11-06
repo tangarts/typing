@@ -5,16 +5,9 @@
    [typing.utils :refer [strip-text]]
    [typing.components.style :as style]
    [typing.components.text :refer [random-text]]
-   [typing.components.character :refer [character]]
+   [typing.components.character :refer [character get-character-state]]
    [typing.components.timer :refer [timer-component display-time]]
    [clojure.string :as str]))
-
-
-(defn get-word-type [a b]
-  (cond 
-    (< a b) "done"
-    (= a b) "current"
-    :else "awaiting"))
 
 
 (defn render-text []
@@ -26,9 +19,7 @@
           [character
            c
            (get @actual i)
-           (get-word-type i (count @actual))]))))
-
-(render-text)
+           (get-character-state i (count @actual))]))))
 
 
 (defn text-area []
