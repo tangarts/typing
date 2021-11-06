@@ -1,8 +1,7 @@
 ;; shadow-cljs configuration
 {:source-paths
- ["src/dev"
-  "src/main"
-  "src/test"]
+ ["src"
+  "test"]
 
  ;; ADD - CIDER middleware for nREPL (required by fireplace.vim)
  :dependencies [
@@ -24,7 +23,7 @@
    :asset-path  "/js"
 
    :modules 
-   {:main
+   {:src
     {:entries [typing.core]
      :init-fn typing.core/init}}
 
