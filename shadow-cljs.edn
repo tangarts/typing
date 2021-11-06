@@ -1,5 +1,6 @@
 ;; shadow-cljs configuration
-{:source-paths
+{
+        :source-paths
  ["src"
   "test"]
 

@@ -16,15 +16,15 @@ function release() {
     npx shadow-cljs release app
 }
 
-function clean() {
-    rm -rf dist/*
-}
-
-function build() {
-    clean
-    release
-    cp public/index.html dist/
-    cp -r public/css dist/
-}
+# function clean() {
+#     rm -rf dist/*
+# }
+# 
+# function build() {
+#     clean
+#     release
+#     cp public/index.html dist/
+#     cp -r public/css dist/
+# }
 
 eval "$@"
