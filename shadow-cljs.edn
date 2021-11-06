@@ -23,7 +23,7 @@
    :asset-path  "/js"
 
    :modules 
-   {:src
+   {:main
     {:entries [typing.core]
      :init-fn typing.core/init}}
 
