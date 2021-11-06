@@ -1,7 +1,6 @@
 (ns typing.components.timer
   (:require 
     [reagent.core :as r]
-    [typing.components.style :as style]
     [typing.state :as state]
     [clojure.string :as str]))
 
@@ -56,6 +55,6 @@
     (fn []
       (js/setInterval
         #(when (on?)
-          (reset! timer (- (now) (:stime @state/timer) )))
+          (reset! timer (- (now) start)))
        1000)
       [:div (display-time @timer)])))

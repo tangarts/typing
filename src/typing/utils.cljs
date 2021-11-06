@@ -1,6 +1,5 @@
 (ns typing.utils
   (:require
-    [reagent.core :as r]
     [clojure.string :as str]))
 
 ; WPM means Words Per Minute. It is a measure of the output speed on a

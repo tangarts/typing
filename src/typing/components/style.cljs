@@ -1,9 +1,5 @@
 (ns typing.components.style)
 
-(comment 
-; :font-family "Special Elite"  
-  )
-
 (def word-css
   {:font-size 18
    :font-family "Source Code Pro, monospace"

@@ -14,7 +14,6 @@
 (def input (r/atom ""))
 
 (defn default-state []
-  "Generates a map with start/end time keys"
   (let [now (.now js/Date)]
     {:stime now
      :etime nil

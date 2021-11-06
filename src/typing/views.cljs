@@ -5,8 +5,10 @@
    [typing.utils :refer [strip-text]]
    [typing.components.style :as style]
    [typing.components.text :refer [random-text]]
-   [typing.components.character :refer [character get-character-state]]
-   [typing.components.timer :refer [timer-component display-time]]
+   [typing.components.character :refer 
+    [character 
+                                        get-character-state]]
+   [typing.components.timer :refer [timer-component]]
    [clojure.string :as str]))
 
 
