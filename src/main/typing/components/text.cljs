@@ -21,7 +21,7 @@
 (def pipkin "I become grateful to wake up every day knowing how I will spend it. I'm not building a cathedral, but I think about what building a cathedral would let me do, how it would allow me to move my hands in a task and see something monumental grow very slowly, with immense care. A bricklayer understands brick in a way that is devotional. Repetition is devotional.")
 
 ; https://www.gwern.net/Traffic
-(def dinesen "No, no, let us work just one more hour; let us compose just one more page. Of course we shall not get the book done, but we must keep on trying to finish a little more…When you have a great and difficult task, something perhaps almost impossible, if you only work a little at a time, every day a little, without faith and without hope, suddenly the work will finish itself.")
+(def dinesen "No, no, let us work just one more hour; let us compose just one more page. Of course we shall not get the book done, but we must keep on trying to finish a little more...When you have a great and difficult task, something perhaps almost impossible, if you only work a little at a time, every day a little, without faith and without hope, suddenly the work will finish itself.")
 
 (def eliot "Home is where one starts from. As we grow older The world becomes stranger, the pattern more complicated Of dead and living. Not the intense moment Isolated, with no before and after, But a lifetime burning in every moment And not the lifetime of one man only But of old stones that cannot be deciphered. There is a time for the evening under starlight, A time for the evening under lamplight.")
 
