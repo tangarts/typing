@@ -1,6 +1,5 @@
 ;; shadow-cljs configuration
-{
-        :source-paths
+{:source-paths
  ["src"
   "test"]
 
@@ -15,8 +14,6 @@
   {:port 3333}
 
  ;; ADD - a port for the developmemt-time HTTP server that serves the app
-
- :dev-http {8080 "public"}
  :builds
  {:app
   {:target :browser

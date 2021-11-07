@@ -58,3 +58,14 @@
           (reset! timer (- (now) start)))
        1000)
       [:div (display-time @timer)])))
+
+(defn get-cpm [input timer]
+  (Math/floor
+    (/ (* (count input) 60)
+       (/ (- (:etime timer)
+             (:stime timer)) 1000))))
+
+
+(defn get-wpm [input timer] (/ (get-cpm input timer) 5))
+
+

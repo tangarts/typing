@@ -5,10 +5,8 @@
    [typing.utils :refer [strip-text]]
    [typing.components.style :as style]
    [typing.components.text :refer [random-text]]
-   [typing.components.character :refer 
-    [character 
-                                        get-character-state]]
-   [typing.components.timer :refer [timer-component]]
+   [typing.components.character :refer [character get-character-state]]
+   [typing.components.timer :refer [timer-component get-wpm]]
    [clojure.string :as str]))
 
 
@@ -32,8 +30,8 @@
       :value @state/input
       :on-change #(reset! state/input (-> % .-target .-value))
       :disabled (if @state/finished? true false) 
-;      :on-key-down #(swap! state/timer assoc :on? true) 
 ;     :on-key-press (fn [e] (.log js/console (.-key e)))
+;      :on-key-down #(swap! state/timer assoc :on? true) 
       }]))
 
 
@@ -43,16 +41,6 @@
        :aria-hidden true} body])
 
 
-(defn get-cpm [input timer]
-  (Math/floor
-    (/ (* (count input) 60)
-       (/ (- (:etime timer)
-             (:stime timer)) 1000))))
-
-
-(defn get-wpm [input timer] (/ (get-cpm input timer) 5))
-
-
 (defn finished?  []
   (when (= @state/input (str/join @state/text))
     (swap! state/timer assoc :on? false)
@@ -60,7 +48,6 @@
     (reset! state/finished? true)
     [:div {:style {:margin-left "8px"}}
      "WPM: " (get-wpm @state/input @state/timer)]))
-
 
 (defn control-view []
   (fn []
@@ -82,7 +69,7 @@
 (defn footer []
   [:footer {:style {:bottom 0 :position "absolute"}}
    [:p "made by "
-    [:a {:href "https://tangarts.github.io/about"} "tangarts"] ]])
+    [:a {:href "https://tangarts.github.io/about"} "tangarts"]]])
 
 
 (defn container []
