@@ -23,7 +23,6 @@
            (get @actual i)
            (get-character-state i (count @actual))]))))
 
-
 (defn text-area []
   (fn []
     [:input#input
