@@ -1,6 +1,5 @@
 (ns typing.views
   (:require
-   [reagent.core :as r]
    [typing.state :as state]
    [typing.utils :refer [strip-text]]
    [typing.components.style :as style]
@@ -11,15 +10,18 @@
 
 
 (defn render-text []
-  (let [actual (r/atom (strip-text @state/input))]
-    (into [:div {:style {:padding "36px 24px"}}
+ ; TODO: implement incorrect errors 
+  ; (fn [])
+  (into [:div {:style {:padding "36px 24px"}}
            [:div {:style style/inputs}]] 
         (for [[i c] (map-indexed vector @state/text)]
           ^{:key i}
           [character
            c
-           (get @actual i)
-           (get-character-state i (count @actual))]))))
+           (get @state/input i)
+           (get-character-state i (count @state/input))])))
+
+; (->> (render-text) (flatten) vec)
 
 (defn text-area []
   (fn []
@@ -30,10 +32,9 @@
       :value @state/input
       :on-change #(reset! state/input (-> % .-target .-value))
       :disabled (if @state/finished? true false) 
-;     :on-key-press (fn [e] (.log js/console (.-key e)))
 ;      :on-key-down #(swap! state/timer assoc :on? true) 
+;     :on-key-press (fn [e] (.log js/console (.-key e)))
       }]))
-
 
 
 (defn icon [name & body]
@@ -50,20 +51,14 @@
      "WPM: " (get-wpm @state/input @state/timer)]))
 
 (defn control-view []
-  (fn []
-    [:div 
-     [:button
-      {:on-click #((swap! state/timer merge (state/default-state))
-                   (reset! state/text (strip-text (random-text)))
-                   (reset! state/input "")
-                   (reset! state/finished? false))
-       :style style/button}
-      [icon "refresh"]]]))
-
-
-(defn nav []
-  [:nav {:style {:position "absolute" :top 0 :right "32px" }}
-   [:div [:p [:a {:href "#"} "nav"] ] ]])
+  [:div
+   [:button
+    {:on-click #((swap! state/timer merge (state/default-state))
+                 (reset! state/text (strip-text (random-text)))
+                 (reset! state/input "")
+                 (reset! state/finished? false))
+     :style style/button}
+    [icon "refresh"]]])
 
 
 (defn footer []
@@ -85,11 +80,11 @@
 
 (defn app []
   (fn []
-    [:div {:style style/root
-           :on-click #(when-not @state/finished?
-                        (-> js/document (.getElementById "input")
-                            (.focus))) }
-     ;     [nav]
+    [:div
+     {:style style/root
+      :on-click 
+      #(when-not @state/finished?
+         (-> js/document (.getElementById "input") (.focus)))}
      [text-area] ; hidden text-area
      [container]
      [footer]]))

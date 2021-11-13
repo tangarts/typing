@@ -49,14 +49,11 @@
      (swap! state/timer assoc key val)))
 
 (defn timer-component []
-  (let [start (:stime @state/timer)
-        timer (r/atom (- (.now js/Date) 
-                         (:stime @state/timer)))]
+  (let [timer (r/atom (- (now) (:stime @state/timer)))]
     (fn []
       (js/setInterval
         #(when (on?)
-          (reset! timer (- (now) start)))
-       1000)
+          (reset! timer (- (now) (:stime @state/timer)))) 1000)
       [:div (display-time @timer)])))
 
 (defn get-cpm [input timer]
@@ -69,3 +66,7 @@
 (defn get-wpm [input timer] (/ (get-cpm input timer) 5))
 
 
+(comment
+  
+
+)
