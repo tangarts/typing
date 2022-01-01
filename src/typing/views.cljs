@@ -8,12 +8,11 @@
    [typing.components.timer :refer [timer-component get-wpm]]
    [clojure.string :as str]))
 
-
 (defn render-text []
  ; TODO: implement incorrect errors 
   ; (fn [])
   (into [:div {:style {:padding "36px 24px"}}
-           [:div {:style style/inputs}]] 
+         [:div {:style style/inputs}]]
         (for [[i c] (map-indexed vector @state/text)]
           ^{:key i}
           [character
@@ -22,6 +21,8 @@
            (get-character-state i (count @state/input))])))
 
 ; (->> (render-text) (flatten) vec)
+; (:class (second (nth (render-text) 3)))
+; (map second (render-text))
 
 (defn text-area []
   (fn []
@@ -31,16 +32,14 @@
       :auto-focus true
       :value @state/input
       :on-change #(reset! state/input (-> % .-target .-value))
-      :disabled (if @state/finished? true false) 
+      :disabled (if @state/finished? true false)
 ;      :on-key-down #(swap! state/timer assoc :on? true) 
 ;     :on-key-press (fn [e] (.log js/console (.-key e)))
       }]))
 
-
 (defn icon [name & body]
   [:i {:class (str "fa fa-lg fa-" name)
        :aria-hidden true} body])
-
 
 (defn finished?  []
   (when (= @state/input (str/join @state/text))
@@ -60,15 +59,13 @@
      :style style/button}
     [icon "refresh"]]])
 
-
 (defn footer []
   [:footer {:style {:bottom 0 :position "absolute"}}
    [:p "made by "
     [:a {:href "https://tangarts.github.io/about"} "tangarts"]]])
 
-
 (defn container []
-  [:section {:style style/container } 
+  [:section {:style style/container}
    [:div {:style style/board}
     [:div {:style style/statistics}
      [timer-component]
@@ -77,12 +74,11 @@
      [control-view]]
     [render-text]]])
 
-
 (defn app []
   (fn []
     [:div
      {:style style/root
-      :on-click 
+      :on-click
       #(when-not @state/finished?
          (-> js/document (.getElementById "input") (.focus)))}
      [text-area] ; hidden text-area
