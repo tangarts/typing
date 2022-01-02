@@ -2,9 +2,9 @@
 
 (def data
   [
-   ; {:id 1
-   ;  :author "Marcus Aurelius"
-   ;  :text "BEGIN the morning by saying to thyself, I shall meet with the busybody, the ungrateful, arrogant, deceitful, envious, unsocial. All these things happen to them by reason of their ignorance of what is good and evil. But I who have seen the nature of the good that it is beautiful and of the bad that it is ugly, and the nature of him who does wrong, that it is akin to me, not [only] of the same blood or seed, but that it participates in [the same] intelligence and [the same] portion of the divinity, I can neither be injured by any of them, for no one can fix on me what is ugly, nor can I be angry with my kinsman, nor hate him. For we are made for co-operation, like feet, like hands, like eyelids, like the rows of the upper and lower teeth. To act against one another then is contrary to nature; and it is acting against one another to be vexed and to turn away."}
+   {:id 1
+    :author "Marcus Aurelius"
+    :text "BEGIN the morning by saying to thyself, I shall meet with the busybody, the ungrateful, arrogant, deceitful, envious, unsocial. All these things happen to them by reason of their ignorance of what is good and evil. But I who have seen the nature of the good that it is beautiful and of the bad that it is ugly, and the nature of him who does wrong, that it is akin to me, not [only] of the same blood or seed, but that it participates in [the same] intelligence and [the same] portion of the divinity, I can neither be injured by any of them, for no one can fix on me what is ugly, nor can I be angry with my kinsman, nor hate him. For we are made for co-operation, like feet, like hands, like eyelids, like the rows of the upper and lower teeth. To act against one another then is contrary to nature; and it is acting against one another to be vexed and to turn away."}
    {:id 2
     :author "Anon."
     :text "No matter what you're doing, the most essential thing is to not give up. Fail as many times as it takes. Keep trying persistently until you can call yourself average. If you can collect a nice group of average-level skills, that's already above-average. You've created your own sort of talent."}
@@ -42,13 +42,13 @@
    {:id 12
     :author "Amos Tversky"
     :text "The secret to doing good research is always to be a little underemployed. You waste years by not being able to waste hours."}
-   ;{:id 13
-   ; :author "Mads Mikkelsen"
-   ; :text "My approach to what I do in my job — and it might even be the approach to my life — is that everything I do is the most important thing I do. Whether it’s a play or the next film. It is the most important thing. I know it’s not going to be the most important thing, and it might not be close to being the best, but I have to make it the most important thing. That means I will be ambitious with my job and not with my career. That’s a very big difference, because if I’m ambitious with my career, everything I do now is just stepping-stones leading to something — a goal I might never reach, and so everything will be disappointing. But if I make everything important, then eventually it will become a career. Big or small, we don’t know. But at least everything was important."
-   ; :link "https://www.vulture.com/article/mads-mikkelsen-in-conversation.html"}
+   {:id 13
+    :author "Mads Mikkelsen"
+    :text "My approach to what I do in my job — and it might even be the approach to my life — is that everything I do is the most important thing I do. Whether it’s a play or the next film. It is the most important thing. I know it’s not going to be the most important thing, and it might not be close to being the best, but I have to make it the most important thing. That means I will be ambitious with my job and not with my career. That’s a very big difference, because if I’m ambitious with my career, everything I do now is just stepping-stones leading to something — a goal I might never reach, and so everything will be disappointing. But if I make everything important, then eventually it will become a career. Big or small, we don’t know. But at least everything was important."
+   :link "https://www.vulture.com/article/mads-mikkelsen-in-conversation.html"}
   {:id 14
    :author "Martin Luther King, Jr."
-   :text "We are now faced with the fact that tomorrow is today. We are confronted with the fierce urgency of now. In this unfolding conundrum of life and history there is such a thing as being too late. Procrastination is still the thief of time. Life often leaves us standing bare, naked and dejected with a lost opportunity. The 'tide in the affairs of men' does not remain at the flood; it ebbs. We may cry out deperately for time to pause in her passage, but time is deaf to every plea and rushes on. Over the bleached bones and jumbled residue of numerous civilizations are written the pathetic words: 'Too late.' -- Martin Luther King, Jr."}   
+   :text "We are now faced with the fact that tomorrow is today. We are confronted with the fierce urgency of now. In this unfolding conundrum of life and history there is such a thing as being too late. Procrastination is still the thief of time. Life often leaves us standing bare, naked and dejected with a lost opportunity. The 'tide in the affairs of men' does not remain at the flood; it ebbs. We may cry out deperately for time to pause in her passage, but time is deaf to every plea and rushes on. Over the bleached bones and jumbled residue of numerous civilizations are written the pathetic words: 'Too late.'"}   
   {:id 15
    :author "James Baldwin"
    :text "An essay is not simpler, though it may seem so. An essay is essentially an argument. The writer's point of view in an essay is always absolutely clear. The writer is trying to make the readers see something, trying to convince them of something. In a novel or a play you're trying to show them something. The risks, in any case, are exactly the same."}

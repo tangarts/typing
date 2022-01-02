@@ -38,7 +38,7 @@
 (defn render-text []
  ; TODO: implement incorrect errors 
   (fn []
-    (into [:div {:style {:padding "36px 24px"}}
+    (into [:div {:style {:padding "36px"}}
            [:div {:style style/inputs}]]
           (for [c (characters @state/input @state/text)]
             [:span {:style style/word-css
@@ -112,5 +112,6 @@
          (-> js/document (.getElementById "input") (.focus)))}
      [text-area] ; hidden text-area
      [container]
+     
      [footer]]))
 
