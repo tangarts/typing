@@ -2,7 +2,7 @@
   (:require
    [typing.state :as state]
    [typing.components.style :as style]
-   [typing.components.text :refer [random-text]]
+   [typing.components.text :refer [random-text data]]
    [typing.components.character :refer [character get-character-state]]
    [typing.components.timer :refer [timer-component get-wpm]]
    [clojure.string :as str]))
@@ -15,19 +15,21 @@
          :when (not= (get s2 i) v)]
      i)))
 
+; (first-mistake @state/input (apply str @state/text))
+
 (defn characters
   [input text]
   (vec
    (let [mistake (first-mistake input text)]
      (for [[i c] (map-indexed vector text)]
        (cond
-         (> i (count input)) {:char c :status "untyped"}
-         (= i (count input)) {:char c :status "current"}
-         (and mistake  (>= i mistake)) {:char c :status "wrong"}
-         :else {:char c :status "correct"})))))
+         (> i (count input)) {:char c :status :untyped}
+         (= i (count input)) {:char c :status :current}
+         (and mistake  (>= i mistake)) {:char c :status :wrong}
+         :else {:char c :status :correct})))))
 
 (comment
-  (filter #(= "wrong" (:status %)) (characters @state/input @state/text))
+  (filter #(= "wrong" (:status %)) (characters @state/input (:text @state/text)))
 ; (->> (render-text) (flatten) vec)
 ; (:class (second (nth (render-text) 3)))
 ; (map second (render-text))
@@ -40,13 +42,13 @@
   (fn []
     (into [:div {:style {:padding "36px"}}
            [:div {:style style/inputs}]]
-          (for [c (characters @state/input @state/text)]
+          (for [c (characters @state/input (:text @state/text))]
             [:span {:style style/word-css
                     :class [(case (:status c)
-                              "correct" "correct"
-                              "wrong" "incorrect"
-                              "untyped" "awaiting"
-                              "current" "cursor"
+                              :correct "correct"
+                              :wrong "incorrect"
+                              :untyped "awaiting"
+                              :current "cursor"
                               "")]} (:char c)]))))
 ; (character
 ;            c
@@ -71,7 +73,7 @@
        :aria-hidden true} body])
 
 (defn finished?  []
-  (when (= @state/input (str/join @state/text))
+  (when (= @state/input (:text @state/text))
     (swap! state/timer assoc :on? false)
     (swap! state/timer assoc :etime (.now js/Date))
     (reset! state/finished? true)
@@ -81,8 +83,9 @@
 (defn control-view []
   [:div
    [:button
-    {:on-click #((swap! state/timer merge (state/default-state))
-                 (reset! state/text (vec (random-text)))
+    {:on-click (fn [] ;(swap! state/timer merge (state/default-state))
+                 (reset! state/timer (state/default-state))
+                 (reset! state/text (rand-nth data))
                  (reset! state/input "")
                  (reset! state/finished? false))
      :style style/button}
