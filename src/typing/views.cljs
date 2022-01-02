@@ -1,28 +1,57 @@
 (ns typing.views
   (:require
    [typing.state :as state]
-   [typing.utils :refer [strip-text]]
    [typing.components.style :as style]
    [typing.components.text :refer [random-text]]
    [typing.components.character :refer [character get-character-state]]
    [typing.components.timer :refer [timer-component get-wpm]]
    [clojure.string :as str]))
 
-(defn render-text []
- ; TODO: implement incorrect errors 
-  ; (fn [])
-  (into [:div {:style {:padding "36px 24px"}}
-         [:div {:style style/inputs}]]
-        (for [[i c] (map-indexed vector @state/text)]
-          ^{:key i}
-          [character
-           c
-           (get @state/input i)
-           (get-character-state i (count @state/input))])))
+; cursor pos is length of state/input 
+; (count @state/input)
+(defn first-mistake [s1 s2]
+  (first
+   (for [[i v] (map-indexed vector s1)
+         :when (not= (get s2 i) v)]
+     i)))
 
+(defn characters
+  [input text]
+  (vec
+   (let [mistake (first-mistake input text)]
+     (for [[i c] (map-indexed vector text)]
+       (cond
+         (> i (count input)) {:char c :status "untyped"}
+         (= i (count input)) {:char c :status "current"}
+         (and mistake  (>= i mistake)) {:char c :status "wrong"}
+         :else {:char c :status "correct"})))))
+
+(comment
+  (filter #(= "wrong" (:status %)) (characters @state/input @state/text))
 ; (->> (render-text) (flatten) vec)
 ; (:class (second (nth (render-text) 3)))
 ; (map second (render-text))
+  (def keystroke
+    {:key
+     :timestamp}))
+
+(defn render-text []
+ ; TODO: implement incorrect errors 
+  (fn []
+    (into [:div {:style {:padding "36px 24px"}}
+           [:div {:style style/inputs}]]
+          (for [c (characters @state/input @state/text)]
+            [:span {:style style/word-css
+                    :class [(case (:status c)
+                              "correct" "correct"
+                              "wrong" "incorrect"
+                              "untyped" "awaiting"
+                              "current" "cursor"
+                              "")]} (:char c)]))))
+; (character
+;            c
+;            (get @state/input i)
+;            (get-character-state i (count @state/input)))
 
 (defn text-area []
   (fn []
@@ -53,7 +82,7 @@
   [:div
    [:button
     {:on-click #((swap! state/timer merge (state/default-state))
-                 (reset! state/text (strip-text (random-text)))
+                 (reset! state/text (vec (random-text)))
                  (reset! state/input "")
                  (reset! state/finished? false))
      :style style/button}

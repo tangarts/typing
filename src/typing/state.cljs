@@ -1,15 +1,13 @@
-(ns typing.state 
-  (:require 
-    [reagent.core :as r]
-    [typing.utils :refer [strip-text]]
-    [typing.components.text :refer [random-text]]))
-
+(ns typing.state
+  (:require
+   [reagent.core :as r]
+   [typing.components.text :refer [random-text]]))
 
 (def finished? (r/atom false))
 
 (def history (r/atom []))
 
-(def text (r/atom (strip-text (random-text))))
+(def text (r/atom (vec (random-text))))
 
 (def input (r/atom ""))
 
@@ -20,7 +18,6 @@
      :on? true}))
 
 (def timer (r/atom (default-state)))
-
 
 ; (defn set-value! [id value]
 ;   (swap! state assoc :saved? false))
