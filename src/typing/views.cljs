@@ -2,20 +2,18 @@
   (:require
    [typing.state :as state]
    [typing.components.style :as style]
-   [typing.components.text :refer [random-text data]]
+   [typing.components.text :refer [data]]
    [typing.components.character :refer [character get-character-state]]
-   [typing.components.timer :refer [timer-component get-wpm]]
-   [clojure.string :as str]))
+   [typing.components.timer :refer [timer-component wpm]]))
 
-; cursor pos is length of state/input 
-; (count @state/input)
-(defn first-mistake [s1 s2]
+
+(defn first-mistake 
+  [s1 s2]
   (first
    (for [[i v] (map-indexed vector s1)
          :when (not= (get s2 i) v)]
      i)))
 
-; (first-mistake @state/input (apply str @state/text))
 
 (defn characters
   [input text]
@@ -30,12 +28,11 @@
 
 (comment
   (filter #(= "wrong" (:status %)) (characters @state/input (:text @state/text)))
-; (->> (render-text) (flatten) vec)
-; (:class (second (nth (render-text) 3)))
-; (map second (render-text))
-  (def keystroke
-    {:key
-     :timestamp}))
+  )
+
+
+
+@state/history
 
 (defn render-text []
  ; TODO: implement incorrect errors 
@@ -52,8 +49,12 @@
                               "")]} (:char c)]))))
 ; (character
 ;            c
-;            (get @state/input i)
 ;            (get-character-state i (count @state/input)))
+
+
+(defn keystroke [char]
+    {:key char
+     :ts (.now js/Date)})
 
 (defn text-area []
   (fn []
@@ -63,10 +64,10 @@
       :auto-focus true
       :value @state/input
       :on-change #(reset! state/input (-> % .-target .-value))
-      :disabled (if @state/finished? true false)
+      :disabled (if @state/finished true false)
 ;      :on-key-down #(swap! state/timer assoc :on? true) 
-;     :on-key-press (fn [e] (.log js/console (.-key e)))
-      }]))
+     :on-key-press (fn [e] (swap! state/history conj {:key (.-key e)
+                                                      :ts (.now js/Date)}))}]))
 
 (defn icon [name & body]
   [:i {:class (str "fa fa-lg fa-" name)
@@ -74,20 +75,23 @@
 
 (defn finished?  []
   (when (= @state/input (:text @state/text))
-    (swap! state/timer assoc :on? false)
-    (swap! state/timer assoc :etime (.now js/Date))
-    (reset! state/finished? true)
+    (reset! state/finished true)
     [:div {:style {:margin-left "8px"}}
-     "WPM: " (get-wpm @state/input @state/timer)]))
+     "WPM: " 
+     (Math/floor (wpm  @state/input
+                      ((@state/history 0) :ts)
+                      ((@state/history (->> @state/history count dec)) :ts)))]))
+
 
 (defn control-view []
   [:div
    [:button
-    {:on-click (fn [] ;(swap! state/timer merge (state/default-state))
-                 (reset! state/timer (state/default-state))
+    {:on-click (fn [] 
                  (reset! state/text (rand-nth data))
                  (reset! state/input "")
-                 (reset! state/finished? false))
+                 (reset! state/history [])
+                 (reset! state/timer 0)
+                 (reset! state/finished false))
      :style style/button}
     [icon "refresh"]]])
 
@@ -111,10 +115,9 @@
     [:div
      {:style style/root
       :on-click
-      #(when-not @state/finished?
+      #(when-not @state/finished
          (-> js/document (.getElementById "input") (.focus)))}
      [text-area] ; hidden text-area
      [container]
-     
-     [footer]]))
 
+     [footer]]))

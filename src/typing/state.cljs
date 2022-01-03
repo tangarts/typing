@@ -3,7 +3,7 @@
    [reagent.core :as r]
    [typing.components.text :refer [data]]))
 
-(def finished? (r/atom false))
+(def finished (r/atom false))
 
 (def history (r/atom []))
 
@@ -11,15 +11,7 @@
 
 (def input (r/atom ""))
 
-(defn default-state []
-  (let [now (.now js/Date)]
-    {:stime now
-     :etime nil
-     :on? true}))
-
-(def timer (r/atom {:stime nil
-     :etime nil
-     :on? true}))
+(def timer (r/atom 0))
 
 ; (defn set-value! [id value]
 ;   (swap! state assoc :saved? false))

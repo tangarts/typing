@@ -1,8 +1,7 @@
 (ns typing.components.timer
-  (:require 
-    [reagent.core :as r]
-    [typing.state :as state]
-    [clojure.string :as str]))
+  (:require
+   [typing.state :as state]
+   [clojure.string :as str]))
 
 (extend-type number
   ICloneable
@@ -11,7 +10,6 @@
 (extend-type boolean
   ICloneable
   (-clone [b] (js/Boolean. b)))
-
 
 (defn now [] (.now js/Date))
 
@@ -33,40 +31,26 @@
 (defmethod display-time js/Number [t] (format-time (->date t)))
 (defmethod display-time js/Date [d] (format-time d))
 
-
-(defn get-state
-  ([key & keys]
-     (map get-state (conj keys key)))
-  ([key]
-     (get-in @state/timer [key])))
-
-(defn on? [] (get-state :on?))
-
-(defn set-state!
-  ([val-map]
-     (swap! state/timer merge val-map))
-  ([key val]
-     (swap! state/timer assoc key val)))
-
 (defn timer-component []
-  (let [timer (r/atom (- (now) (:stime @state/timer)))]
-    (fn []
-      (js/setInterval
-        #(when (on?)
-          (reset! timer (- (now) (:stime @state/timer)))) 1000)
-      [:div (display-time @timer)])))
+  (fn []
+    (js/setInterval
+     (fn []
+       (when (and (not @state/finished) (-> @state/history first :ts))
+         (reset! state/timer (- (now) (-> @state/history first :ts))))) 1000))
+    [:div (display-time @state/timer)])
 
-(defn get-cpm [input timer]
-  (Math/floor
-    (/ (* (count input) 60)
-       (/ (- (:etime timer)
-             (:stime timer)) 1000))))
+(defn cpm
+  "calculate characters per minute
+  - ^String input   : string of characters
+  - ^Integer start  : start time (ms)
+  - ^String input   : end time (ms)
+  "
+  [input start end]
+  (/ (* (count input) 60)
+     (/ (- end
+           start) 1000)))
 
-
-(defn get-wpm [input timer] (/ (get-cpm input timer) 5))
-
-
-(comment
-  
-
-)
+(defn wpm
+  "words per minute"
+  [input start end]
+  (/ (cpm input start end) 5))
