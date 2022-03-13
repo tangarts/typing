@@ -3,36 +3,38 @@
    [typing.state :as state]
    [typing.components.style :as style]
    [typing.components.text :refer [data]]
-   [typing.components.character :refer [character get-character-state]]
-   [typing.components.timer :refer [timer-component wpm]]))
+   [typing.components.timer :refer [wpm]]))
 
+(enable-console-print!)
 
-(defn first-mistake 
+(defn first-mistake
   [s1 s2]
   (first
    (for [[i v] (map-indexed vector s1)
          :when (not= (get s2 i) v)]
      i)))
 
+(defn character
+  [index c mistake n]
+  (cond
+    (> index n) {:char c :status :untyped}
+    (= index n) {:char c :status :current}
+    (and mistake (>= index mistake)) {:char c :status :wrong}
+    :else {:char c :status :correct}))
 
 (defn characters
   [input text]
   (vec
-   (let [mistake (first-mistake input text)]
-     (for [[i c] (map-indexed vector text)]
-       (cond
-         (> i (count input)) {:char c :status :untyped}
-         (= i (count input)) {:char c :status :current}
-         (and mistake  (>= i mistake)) {:char c :status :wrong}
-         :else {:char c :status :correct})))))
+   (let [mistake (first-mistake input text)
+         n (count input)]
+     (for [[index c] (map-indexed vector text)]
+       (character index c mistake n)))))
 
-(comment
-  (filter #(= "wrong" (:status %)) (characters @state/input (:text @state/text)))
-  )
-
-
-
-@state/history
+(defn mistyped-index
+  [history]
+  (for [[i v] (map-indexed vector history)
+        :when (= "Backspace" (:key v))]
+    i))
 
 (defn render-text []
  ; TODO: implement incorrect errors 
@@ -51,11 +53,6 @@
 ;            c
 ;            (get-character-state i (count @state/input)))
 
-
-(defn keystroke [char]
-    {:key char
-     :ts (.now js/Date)})
-
 (defn text-area []
   (fn []
     [:input#input
@@ -65,9 +62,10 @@
       :value @state/input
       :on-change #(reset! state/input (-> % .-target .-value))
       :disabled (if @state/finished true false)
-;      :on-key-down #(swap! state/timer assoc :on? true) 
-     :on-key-press (fn [e] (swap! state/history conj {:key (.-key e)
-                                                      :ts (.now js/Date)}))}]))
+      ;  :on-key-down  
+      :on-key-down (fn [e]  (swap! state/history
+                                   conj {:key (.-key e)
+                                         :ts (.now js/Date)}))}]))
 
 (defn icon [name & body]
   [:i {:class (str "fa fa-lg fa-" name)
@@ -77,16 +75,15 @@
   (when (= @state/input (:text @state/text))
     (reset! state/finished true)
     [:div {:style {:margin-left "8px"}}
-     "WPM: " 
-     (Math/floor (wpm  @state/input
+     "WPM: "
+     (Math/floor (wpm @state/input
                       ((@state/history 0) :ts)
                       ((@state/history (->> @state/history count dec)) :ts)))]))
-
 
 (defn control-view []
   [:div
    [:button
-    {:on-click (fn [] 
+    {:on-click (fn []
                  (reset! state/text (rand-nth data))
                  (reset! state/input "")
                  (reset! state/history [])
@@ -104,7 +101,6 @@
   [:section {:style style/container}
    [:div {:style style/board}
     [:div {:style style/statistics}
-     [timer-component]
      [:div {:style {:flex-grow "1"}}]
      [finished?]
      [control-view]]
