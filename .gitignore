@@ -27,3 +27,4 @@ ref/*
 .lsp/
 .calva/
 .clj-kondo/
+*.mov
