@@ -1,12 +1,12 @@
 # Touch typing 
 
-![screenshot](public/images/typing-demo.gif)
+![screenshot](images/typing-demo.gif)
 
 Test your touch typing skills on curated quotes.
 
 ## Demo
 
-Try the demo at https://ttype.netlify.app
+[Try the live demo](https://ttype.netlify.app).
 
 ## Features
 
