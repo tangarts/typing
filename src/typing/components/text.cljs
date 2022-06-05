@@ -53,7 +53,10 @@
     :text "An essay is not simpler, though it may seem so. An essay is essentially an argument. The writer's point of view in an essay is always absolutely clear. The writer is trying to make the readers see something, trying to convince them of something. In a novel or a play you're trying to show them something. The risks, in any case, are exactly the same."}
    {:id 16
     :author "King Solomon, Son of David"
-    :text "Enjoy life with your wife, whom you love, all the days of this meaningless life that God has given you under the sun—all your meaningless days. For this is your lot in life and in your toilsome labor under the sun. Whatever your hand finds to do, do it with all your might, for in the realm of the dead, where you are going, there is neither working nor planning nor knowledge nor wisdom."}])
+    :text "Enjoy life with your wife, whom you love, all the days of this meaningless life that God has given you under the sun—all your meaningless days. For this is your lot in life and in your toilsome labor under the sun. Whatever your hand finds to do, do it with all your might, for in the realm of the dead, where you are going, there is neither working nor planning nor knowledge nor wisdom."}
+   {:id 17
+    :author "John Carmack"
+    :text "Putting creativity on a pedestal can also be an excuse for laziness. There is a lot of cultural belief that creativity comes from inspiration, and can’t be rushed. Not true. Inspiration is just your subconscious putting things together, and that can be made into an active process with a little introspection. Focused, hard work is the real key to success. Keep your eyes on the goal, and just keep taking the next step towards completing it. If you aren’t sure which way to do something, do it both ways and see which works better."}])
 
 (comment
   ; TODO:
