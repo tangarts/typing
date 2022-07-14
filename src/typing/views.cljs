@@ -115,5 +115,4 @@
          (-> js/document (.getElementById "input") (.focus)))}
      [text-area] ; hidden text-area
      [container]
-
      [footer]]))

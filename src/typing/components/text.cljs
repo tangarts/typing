@@ -56,7 +56,13 @@
     :text "Enjoy life with your wife, whom you love, all the days of this meaningless life that God has given you under the sun—all your meaningless days. For this is your lot in life and in your toilsome labor under the sun. Whatever your hand finds to do, do it with all your might, for in the realm of the dead, where you are going, there is neither working nor planning nor knowledge nor wisdom."}
    {:id 17
     :author "John Carmack"
-    :text "Putting creativity on a pedestal can also be an excuse for laziness. There is a lot of cultural belief that creativity comes from inspiration, and can’t be rushed. Not true. Inspiration is just your subconscious putting things together, and that can be made into an active process with a little introspection. Focused, hard work is the real key to success. Keep your eyes on the goal, and just keep taking the next step towards completing it. If you aren’t sure which way to do something, do it both ways and see which works better."}])
+    :text "Putting creativity on a pedestal can also be an excuse for laziness. There is a lot of cultural belief that creativity comes from inspiration, and can’t be rushed. Not true. Inspiration is just your subconscious putting things together, and that can be made into an active process with a little introspection. Focused, hard work is the real key to success. Keep your eyes on the goal, and just keep taking the next step towards completing it. If you aren’t sure which way to do something, do it both ways and see which works better."}
+    {:id 18
+    :author "Dijkstra"
+    :text "If there is one 'scientific' discovery I am proud of, it is the discovery of the habit of writing without publication in mind. I experience it as a liberating habit: without it, doing the work becomes one thing and writing it down becomes another one, which is often viewed as an unpleasant burden. When working and writing have merged, that burden has been taken away."}
+    {:id 19
+     :author "Richard Feynman"
+     :text "Nobody ever figures out what life is all about, and it doesn’t matter. Explore the world. Nearly everything is really interesting if you go into it deeply enough."}])
 
 (comment
   ; TODO:
