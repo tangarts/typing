@@ -54,3 +54,21 @@
   "words per minute"
   [input start end]
   (/ (cpm input start end) 5))
+
+(defn rolling-avg-speed 
+  [timestamps]
+  (if (> (->> timestamps count dec) 5)
+    (let [ts (subvec timestamps 0 5)]
+    (wpm ts
+         (ts 0)
+         (ts (->> ts count dec))))
+  (wpm timestamps
+         (timestamps 0)
+         (timestamps (->> timestamps count dec)))))
+
+(comment
+(count (filter #(= (:key %) "Backspace") @state/history))
+(sort-by :timestamp @state/history)
+(sort (group-by :index @state/history))
+)
+
