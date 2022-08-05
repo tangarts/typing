@@ -1,6 +1,5 @@
 (ns typing.components.timer
   (:require
-   [typing.state :as state]
    [clojure.string :as str]))
 
 (extend-type number
@@ -31,13 +30,13 @@
 (defmethod display-time js/Number [t] (format-time (->date t)))
 (defmethod display-time js/Date [d] (format-time d))
 
-(defn timer-component []
-  (fn []
+(defn timer-component [state]
+  (fn [state]
     (js/setInterval
      (fn []
-       (when (and (not @state/finished) (-> @state/history first :ts))
-         (reset! state/timer (- (now) (-> @state/history first :ts))))) 1000))
-    [:div (display-time @state/timer)])
+       (when (and (not (:finished state)) (get-in state [:history 0 :ts]))
+         (reset! (:timer state) (- (now) (get-in state [:history 0 :ts]))))) 1000))
+    [:div (display-time (:timer state))])
 
 (defn cpm
   "calculate characters per minute
@@ -65,10 +64,3 @@
   (wpm timestamps
          (timestamps 0)
          (timestamps (->> timestamps count dec)))))
-
-(comment
-(count (filter #(= (:key %) "Backspace") @state/history))
-(sort-by :timestamp @state/history)
-(sort (group-by :index @state/history))
-)
-
