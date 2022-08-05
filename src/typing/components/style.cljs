@@ -46,7 +46,7 @@
    :color "#fff"
    :align-items "center"
    :font-size 12
-   :border-radius 6
+   :border-radius "6px 6px 0px 0px"
    :box-shadow "1px 2px 1px #808080"
    })
 
@@ -56,7 +56,7 @@
    })
 
 (def button
-  {:background "transparent" ;
-   :border "none";
+  {:background "transparent"
+   :border "none"
    :color "inherit"
    })

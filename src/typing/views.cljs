@@ -3,9 +3,18 @@
    [typing.state :as state]
    [typing.components.style :as style]
    [typing.components.text :refer [data]]
-   [typing.components.timer :refer [wpm]]))
+   [typing.components.timer :refer [wpm]]
+   [typing.utils.localstorage :as ls]))
 
 (enable-console-print!)
+
+(defn character
+  [^number index c mistake n]
+  (cond
+    (> index n) {:char c :status :untyped}
+    (= index n) {:char c :status :current}
+    (and mistake (>= index mistake)) {:char c :status :wrong}
+    :else {:char c :status :correct}))
 
 (defn first-mistake
   [s1 s2]
@@ -13,15 +22,6 @@
    (for [[i v] (map-indexed vector s1)
          :when (not= (get s2 i) v)]
      i)))
-
-(defn character
-  [index c mistake n]
-  (cond
-    (> index n) {:char c :status :untyped}
-    (= index n) {:char c :status :current}
-    (and mistake (>= index mistake)) {:char c :status :wrong}
-    :else {:char c :status :correct}))
-
 (defn characters
   [input text]
   (vec
@@ -29,12 +29,6 @@
          n (count input)]
      (for [[index c] (map-indexed vector text)]
        (character index c mistake n)))))
-
-(defn mistyped-index
-  [history]
-  (for [[i v] (map-indexed vector history)
-        :when (= "Backspace" (:key v))]
-    i))
 
 (defn render-text []
  ; TODO: implement incorrect errors 
@@ -49,9 +43,6 @@
                               :untyped "awaiting"
                               :current "cursor"
                               "")]} (:char c)]))))
-; (character
-;            c
-;            (get-character-state i (count @state/input)))
 
 (defn text-area []
   (fn []
@@ -63,22 +54,38 @@
       :on-change #(reset! state/input (-> % .-target .-value))
       :disabled (if @state/finished true false)
       ;  :on-key-down  
-      :on-key-down (fn [e]  (swap! state/history
-                                   conj {:key (.-key e)
-                                         :ts (.now js/Date)}))}]))
+      :on-key-down 
+      (fn [e] (swap! state/history
+                     conj {:key (.-key e)
+                           :ts (.now js/Date)
+                           :index (count @state/input)}))}]))
 
 (defn icon [name & body]
   [:i {:class (str "fa fa-lg fa-" name)
        :aria-hidden true} body])
 
+(defn _session []
+  (when (= @state/input (:text @state/text))
+    (let [first-ts (get-in @state/history [0 :ts])
+          last-ts (get-in @state/history [(dec (count @state/history)) :ts])]
+      {:timestamp last-ts
+       :length (count (:text @state/text))
+       :time (- last-ts first-ts)
+       :errors (count (filter #(= (:key %) "Backspace") @state/history))
+       :speed nil
+       :wpm (Math/floor (wpm @state/input first-ts last-ts))
+       :histogram
+       []})))
+
 (defn finished?  []
   (when (= @state/input (:text @state/text))
     (reset! state/finished true)
-    [:div {:style {:margin-left "8px"}}
-     "WPM: "
-     (Math/floor (wpm @state/input
-                      ((@state/history 0) :ts)
-                      ((@state/history (->> @state/history count dec)) :ts)))]))
+    (let [session (_session)]
+      ;; set item history - session history map
+      (ls/set-item! :sessionHistory
+                    (conj (or (ls/get-item! :sessionHistory) []) session))
+      [:div {:style {:margin-left "8px"}}
+       "WPM: " (:wpm session)])))
 
 (defn control-view []
   [:div

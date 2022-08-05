@@ -2,30 +2,32 @@
 
 /**
 " Original iA Writer colors, to use as a guide
-" White           #F1F1F1
-" OffWhiteIPad    #F5F2EC
-" OffWhiteDemo    #F9F8F4
-" Cursor          #20BBFC
-" Selection       #B6D6FD
-" SelectionNOS    #D4D4D4
-" StatusBar       #EDEDED
-" StatusBarBorder #D9D9D9   used for search too
-" Text            #424242
-" Blue            #B5D6FD
-" Green           #30C798
-" Blue2           #1DAEE4
-" gray            #999999
-" Red             #E32791
-" UnfocusedText   #B8B8B8
-" MenuSelected    #2C81FB
-" MenuUnSelected  #545454
-" MenuText        #F1F1F1
-" LightKeyBg      #4B4B4B
-" DarkKeyBg       #262626
-" NearBlack       #181818
-" SyntaxButton    #363738
-" SearchHighlight #F3E430  yellow
 */
+:root {
+--White:           #F1F1F1;
+--OffWhiteIPad:    #F5F2EC;
+--OffWhiteDemo:    #F9F8F4;
+--Cursor:          #20BBFC;
+--Selection:       #B6D6FD;
+--SelectionNOS:    #D4D4D4;
+--StatusBar:       #EDEDED;
+--StatusBarBorder: #D9D9D9;
+--Text:            #424242;
+--Blue:            #B5D6FD;
+--Green:           #30C798;
+--Blue2:           #1DAEE4;
+--gray:            #999999;
+--Red:             #E32791;
+--UnfocusedText:   #B8B8B8;
+--MenuSelected:    #2C81FB;
+--MenuUnSelected:  #545454;
+--MenuText:        #F1F1F1;
+--LightKeyBg:      #4B4B4B;
+--DarkKeyBg:       #262626;
+--NearBlack:       #181818;
+--SyntaxButton:    #363738;
+--SearchHighlight: #F3E430;
+}
 
 * {
   box-sizing: border-box;
@@ -37,23 +39,63 @@ body {
 }
 
 .correct {
-    color: #181818;
+    color: var(--NearBlack);
 }
 
 .incorrect {
-    color: #181818;  /* or #F1F1F1 ? */
-    background-color: #E32791;
+    color: var(--NearBlack);  /* or #F1F1F1 ? */
+    background-color: var(--Red);
 }
 
 .cursor {
-    color: #F1F1F1;
-    background-color: #20BBFC;
+    color: var(--White);
+    background-color: var(--Cursor);
     outline: 1px solid #fff;
 
 }
 
 .awaiting {
-    color: #B8B8B8;
+    color: var(--UnfocusedText);
 }
 
+.modal {
+  display: flex;
+  position: relative; 
+  left: 0; 
+  top: 0;
+  width: 100%;
+  height: 100%; 
+  /**
+  display: block;
+  position: absolute; // on top
+  min-height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); */
+}
 
+.modal-over {
+  display: block;
+  position: absolute;
+  min-height: 100vh;
+  padding-top: 200px;
+  left: 0; 
+  top: 0;
+  width: 100%;
+  height: 100%; 
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+.modal-content {
+  position: relative; 
+  background-color: var(--OffWhiteIPad);
+  padding: 30px; 
+  max-width: 540px;
+  margin: auto; 
+  width: 90%;  
+}
+
+.close-btn {
+  float: right; 
+  color: lightgray; 
+  font-size: 24px;  
+  font-weight: bold;
+}
